@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> AI Search</title>
+<!--
+===========================================================================
+Apache License 2.0
+Copyright (c) 2026 Joel Wromas
+===========================================================================
+Disclaimer: This page contains affiliate links. Clicking them may support this site.
+-->
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #121425, #1a1f2e);
+    color: #a0c4ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    font-size: 48px;
+    color: #4dabf7;
+    text-shadow: 0 0 10px #4dabf7, 0 0 20px #74c0fc;
+    margin-bottom: 40px;
+  }
+
+  form {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 40px;
+  }
+
+  input {
+    flex: 1;
+    padding: 14px 20px;
+    font-size: 18px;
+    border: 1px solid #74c0fc;
+    border-radius: 24px 0 0 24px;
+    outline: none;
+    background: rgba(20,25,40,0.8);
+    color: #fff;
+    box-shadow: inset 0 0 10px rgba(116,192,252,0.3);
+  }
+
+  button {
+    padding: 14px 24px;
+    font-size: 18px;
+    border: 1px solid #4dabf7;
+    border-radius: 0 24px 24px 0;
+    background-color: rgba(20,25,40,0.8);
+    color: #4dabf7;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  button:hover {
+    background-color: rgba(20,25,40,0.9);
+    color: #74c0fc;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .links a {
+    display: inline-block;
+    text-decoration: none;
+    color: #a0c4ff;
+    background: rgba(20,25,40,0.7);
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    transition: all 0.3s;
+  }
+
+  .links a:hover {
+    background: rgba(20,25,40,0.8);
+    color: #fff;
+  }
+
+  footer {
+    margin-top: auto;
+    padding: 20px 0;
+    font-size: 14px;
+    color: #777;
+    text-align: center;
+  }
+
+  footer a {
+    color: #4dabf7;
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<h1> AI Search</h1>
+
+<form id="aiSearchForm" action="https://www.bing.com/search" method="get" target="_blank">
+  <input type="text" name="q" id="queryInput" placeholder="Bing Search..." required>
+  <button type="submit">Bing Search</button>
+</form>
+
+<div class="links">
+  <!-- Existing links -->
+  <a href="https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=25003&c=918277&a=788412&k=12CBE497265D13AEBCD798FD9F4A59FF&l=26488" target="_blank">Welcome Here</a>
+  <a href="https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=15461&c=918277&a=788412&k=51862C560D34F3F6E4024A3D6D37BF1A&l=16408" target="_blank">Special Link</a>
+  <a href="https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=23211&c=918277&a=788412&k=FDF680D61E769A0F4E8ABF3F84E89C62&l=25068" target="_blank">Learn More</a>
+
+  <!-- Empty slots for future program links -->
+  <a href=https://afflat3c2.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=30230&c=918277&a=788412&k=82AE8D04FD07F3DFBC7375FB4C17C575&l=34564 target="_blank">Welcome </a>
+  <a href=https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=31616&c=918277&a=788412&k=7EA7A174815A61757A63F81CE7F1696E&l=37262 target="_blank">Greetings </a>
+</div>
+
+<footer>
+  © 2026 Joel Wromas • Apache License 2.0 • <a href="#">Disclaimer</a>
+</footer>
+
+<script>
+  const form = document.getElementById('aiSearchForm');
+  const queryInput = document.getElementById('queryInput');
+  form.addEventListener('submit', () => {
+    let recent = JSON.parse(localStorage.getItem('recentSearches')) || [];
+    const q = queryInput.value.trim();
+    if (q && !recent.includes(q)) {
+      recent.unshift(q);
+      recent = recent.slice(0,5);
+      localStorage.setItem('recentSearches', JSON.stringify(recent));
+    }
+  });
+</script>
+
+</body>
+</html>
