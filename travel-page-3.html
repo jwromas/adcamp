@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLink • 3D travel hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0a1c2e 0%, #0d4057 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #e6f3fa;
+        }
+
+        .page-wrapper {
+            max-width: 1300px;
+            width: 100%;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b3e5fc, #7ac7e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 10px 20px rgba(0, 30, 50, 0.5);
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: #c2e2f0;
+            margin-top: 0.6rem;
+            font-weight: 300;
+            border-bottom: 2px dashed #1f7896;
+            padding-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .intro-card {
+            background: rgba(10, 40, 55, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 2rem;
+            border-radius: 40px;
+            margin-bottom: 3rem;
+            box-shadow: 0 25px 35px -12px #021018;
+            border: 1px solid rgba(90, 180, 210, 0.4);
+        }
+
+        .intro-card p {
+            font-size: 1.2rem;
+            color: #d6edf7;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .intro-card span {
+            background: #0b5e7c;
+            color: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: inset 0 -2px 5px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #d8f0fa;
+            margin-bottom: 2rem;
+            border-left: 8px solid #3cb3d0;
+            padding-left: 1.5rem;
+            text-shadow: 0 2px 3px #021622;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 2rem;
+            perspective: 1200px;
+        }
+
+        .link-card {
+            background: #143e50;
+            background: linear-gradient(145deg, #154c61, #0d3342);
+            padding: 1.8rem 1rem;
+            border-radius: 32px;
+            text-align: center;
+            box-shadow: 0 20px 25px -8px #030f17,
+                        0 0 0 1px #34869e inset,
+                        0 -5px 10px rgba(0, 40, 60, 0.5) inset;
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+            will-change: transform;
+            border: 1px solid rgba(100, 200, 230, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .link-card:hover {
+            transform: rotateX(2deg) rotateY(4deg) translateZ(15px) translateY(-8px);
+            box-shadow: 0 30px 35px -12px #010a0f, 0 0 0 2px #5ac8e6 inset;
+            background: linear-gradient(145deg, #1b5e7a, #104356);
+        }
+
+        .link-icon {
+            font-size: 2.7rem;
+            margin-bottom: 0.6rem;
+            filter: drop-shadow(0 6px 6px #02131e);
+        }
+
+        .link-card a {
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(145deg, #f0fcff, #bee4f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 5px #00131f;
+            transition: 0.15s;
+        }
+
+        .link-card a:hover {
+            background: linear-gradient(145deg, #ffffff, #d8f2ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .link-desc {
+            font-size: 0.9rem;
+            color: #b4ddea;
+            background: #0a3747;
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 0.5rem;
+            border: 1px solid #3489a2;
+            box-shadow: inset 0 -2px 5px #02161f;
+        }
+
+        .google-note {
+            font-size: 1rem;
+            color: #c2e2f0;
+            background: #0d3140;
+            padding: 0.6rem 2rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 2.5rem 0 1rem 0;
+            border: 1px solid #2b829e;
+            box-shadow: 0 5px 0 #06212b;
+            font-weight: 500;
+        }
+
+        .blog-section {
+            margin-top: 5rem;
+        }
+
+        .blog-card {
+            background: #10323fE0;
+            backdrop-filter: blur(5px);
+            border-radius: 50px;
+            padding: 2.8rem;
+            border: 1px solid #328ca8;
+            box-shadow: 0 30px 40px -18px #010f16, 0 0 0 2px #246277 inset;
+            transform: rotateX(0.5deg);
+        }
+
+        .blog-title {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: #e2f3fc;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2.2rem;
+        }
+
+        .blog-title:before {
+            content: "✍️";
+            font-size: 2.4rem;
+            filter: drop-shadow(2px 4px 4px black);
+        }
+
+        .blog-content h3 {
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: #ddf2fa;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+            text-shadow: 0 4px 8px #02131f;
+        }
+
+        .blog-meta {
+            color: #a6cfdf;
+            margin-bottom: 2rem;
+            font-style: italic;
+            border-left: 4px solid #48c0e0;
+            padding-left: 1.2rem;
+        }
+
+        .blog-text p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: #d2ecf7;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            background: #1b657b;
+            padding: 0.2rem 0.5rem;
+            border-radius: 16px;
+            font-weight: 500;
+            color: #0b1f29;
+            box-shadow: inset 0 -2px 3px #092731;
+        }
+
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            color: #9ac7db;
+            font-size: 1rem;
+            text-shadow: 0 2px 4px #03131d;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #2f8dab, transparent);
+            margin: 3rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <div class="hero">
+        <h1>✈️ wander<span style="font-weight:300;">link</span></h1>
+        <p>Best Services · 3D links · Infinite Discovery</p>
+    </div>
+
+    <div class="intro-card">
+        <p>
+            <span>🧩 10 easy‑edit link slots</span> 
+            — each card triggers a smart Google search . Toggle <code style="background:#0c4b60; padding:3px 8px; border-radius:30px;">linksData</code> array below.
+        </p>
+    </div>
+
+    <!-- 3D LINK GRID (generated by JavaScript) -->
+    <div class="links-section">
+        <h2 class="section-title">🔗 3D link slots · Google & Assoc. links</h2>
+        <div class="link-grid" id="linkGrid"></div>
+        <div class="google-note">
+            🔍 every card = backlink to a tailored google search or your own offer – click, explore, plan.
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- BLOG SECTION – trust message -->
+    <div class="blog-section">
+        <div class="blog-card">
+            <div class="blog-title">the trust compass</div>
+            <div class="blog-content">
+                <h3>🧭 Why tourists flock to content they can trust</h3>
+                <div class="blog-meta">by the wanderlink crew · 4 min read</div>
+                <div class="blog-text">
+                    <p><span class="highlight">Trust is the currency of travel.</span> When a tourist lands on your website, they’re not just looking for pretty pictures – they’re looking for reliability. Will that hotel really be that nice? Is that hiking trail still open? Good content answers these unspoken doubts with honesty and precision.</p>
+
+                    <p><strong>Trust comes from transparency.</strong> A site that admits “this beach can get crowded in August” or “the bus from the airport often runs late” is a site that earns respect. Tourists remember who told them the truth. They bookmark it, share it, and return to it.</p>
+
+                    <p><strong>Freshness builds credibility.</strong> Outdated prices or closed attractions break trust instantly. Updated guides with current opening times, recent traveler reviews, and local COVID‑19 rules tell visitors: “we care, we’re active, you can depend on us.”</p>
+
+                    <p><strong>Authority through detail.</strong> Generic lists don’t build trust; specific, well‑researched advice does. Mentioning the exact pier for a boat tour, the name of the farmer at the market, or the best SIM card for data – that’s the kind of content that makes a tourist think, “these people really know their stuff.”</p>
+
+                    <p>In short, tourists are drawn to websites that feel like a knowledgeable friend. Create content that is <strong>accurate, helpful, and human</strong>, and you’ll turn casual visitors into loyal followers – and eventually into travelers who book.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        ⚲ wanderlink · deep blue edition · edit links easily in the JS array
+    </footer>
+
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // EDIT YOUR LINKS HERE — now supports direct URLs (via "url") OR Google searches (via "query")
+    // --------------------------------------------------------------
+    const linksData = [
+        // Google search link (example)
+        {
+            icon: "✈️",
+            label: "flight finder",
+            url: "https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=19783&c=918277&a=788412&k=A90E5F545D3D705DE8FEEE300E8D2C67&l=22337",
+            desc: "Google: cheap flights"
+        },
+        // YOUR AFFILIATE LINK (inserted as a direct URL)
+        {
+            icon: "💰",
+            label: "You Tube magic",
+            url: "https://tubemagic.com/ds#aff=wromasjoe4558",
+            desc: "exclusive offer"
+        },
+        // More Google search links (you can keep or replace them)
+        {
+            icon: "🏨",
+            label: "Gardening",
+            url: "http://www.betterdailyguide.site/ds24/5-minute-garden#aff=wromasjoe4558",
+            desc: "Google: Gardening"
+        },
+        {
+            icon: "🎭",
+            label: "top attractions",
+            url: "https://mavely.app.link/W99JVKxeE1b",
+            desc: "Google: activities"
+        },
+        {
+            icon: "🍜",
+            label: "BJ's",
+            url: "https://mavely.app.link/2LxkxEieE1b",
+            desc: "Google: eateries"
+        },
+        {
+            icon: "🚆",
+            label: "Pet food",
+            url: "https://mavely.app.link/yDQyYr3dE1b",
+            desc: "Google: Pet food"
+        },
+        {
+            icon: "☀️",
+            label: "Ulta beauty",
+            url: "https://mavely.app.link/MWlfqZK7D1b",
+            desc: "Google: Ulta"
+        },
+        {
+            icon: "📸",
+            label: "Sports wear",
+            url: "https://mavely.app.link/BZiVomtdE1b",
+            desc: "Google: Clothing"
+        },
+        {
+            icon: "🏛️",
+            label: "Michael kors",
+            url: "https://mavely.app.link/aeSILnDdE1b",
+            desc: "Google: festivals"
+        },
+        {
+            icon: "🛡️",
+            label: "calvin klien",
+            url: "https://mavely.app.link/3VZappQ6D1b",
+            desc: "Google: shopping"
+        }
+        // ---- TO ADD A NEW LINK, just add a new object above ----
+        // For a direct link, use: { icon: "...", label: "...", url: "https://...", desc: "..." }
+        // For a Google search, use: { icon: "...", label: "...", query: "search terms", desc: "..." }
+    ];
+
+    // Render the grid
+    const grid = document.getElementById('linkGrid');
+    if (grid) {
+        linksData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'link-card';
+
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'link-icon';
+            iconDiv.textContent = item.icon;
+            card.appendChild(iconDiv);
+
+            const link = document.createElement('a');
+            // Use direct URL if provided, otherwise build Google search
+            if (item.url) {
+                link.href = item.url;
+            } else {
+                link.href = `https://www.google.com/search?q=${encodeURIComponent(item.query)}`;
+            }
+            link.target = '_blank';
+            link.rel = 'noopener';
+            link.textContent = item.label;
+            card.appendChild(link);
+
+            const descSpan = document.createElement('div');
+            descSpan.className = 'link-desc';
+            descSpan.textContent = item.desc;
+            card.appendChild(descSpan);
+
+            grid.appendChild(card);
+        });
+    }
+
+</script>
+
+</body>
+</html>
