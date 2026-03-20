@@ -108,6 +108,11 @@
             border-radius: 30px;
             font-size: 0.9rem;
             border: 1px solid #4faec0;
+            transition: 0.2s;
+        }
+
+        .ai-example:hover {
+            background: #1a6d82;
         }
 
         .ai-main-link {
@@ -123,6 +128,12 @@
             border: 1px solid #ffdb8a;
             box-shadow: 0 4px 0 #a05f1a;
             margin-top: 0.5rem;
+            transition: 0.2s;
+        }
+
+        .ai-main-link:hover {
+            background: #ffb347;
+            transform: translateY(-2px);
         }
 
         /* FLIGHT AWARENESS SECTION */
@@ -181,6 +192,12 @@
             border: 1px solid #ffdb8a;
             box-shadow: 0 4px 0 #b16f1a;
             width: 100%;
+            transition: 0.2s;
+        }
+
+        .flight-button:hover {
+            background: #ffa01e;
+            transform: translateY(-2px);
         }
 
         /* WEATHER SECTION */
@@ -268,6 +285,12 @@
             width: 100%;
             text-align: center;
             margin-top: 1rem;
+            transition: 0.2s;
+        }
+
+        .weather-link:hover {
+            background: #ffb347;
+            transform: translateY(-2px);
         }
 
         /* NEWS SECTION */
@@ -320,6 +343,12 @@
             border: 1px solid #e6a0c0;
             box-shadow: 0 4px 0 #4a1230;
             margin-top: 0.5rem;
+            transition: 0.2s;
+        }
+
+        .yahoo-button:hover {
+            background: #9a2e6a;
+            transform: translateY(-2px);
         }
 
         .entertainment-links {
@@ -336,9 +365,16 @@
             padding: 0.7rem 1rem;
             border-radius: 30px;
             border: 1px solid #b0d6e0;
+            transition: 0.2s;
+            display: block;
+            text-align: center;
         }
 
-        /* TRAVEL LINK SLOTS - YOUR 10 BUTTONS */
+        .entertainment-link:hover {
+            background: #1f6e86;
+        }
+
+        /* TRAVEL LINK SLOTS */
         .links-section {
             margin: 2rem 0;
         }
@@ -368,6 +404,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            transition: 0.3s;
         }
 
         .link-card:hover {
@@ -475,19 +512,19 @@
                 <h3>💬 Bing Copilot</h3>
                 <p>GPT-4 powered travel answers with citations</p>
                 <div class="ai-buttons">
-                    <a href="https://www.google.com/maps/@26.586492,-81.7159583,14z?entry=ttu&g_ep=EgoyMDI2MDMxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="ai-example">googlemaps</a>
-                    <a href="https://www.flightaware.com/" target="_blank" class="ai-example">🇮🇹 Italy</a>
+                    <a href="https://www.google.com/maps/@26.586492,-81.7159583,14z?entry=ttu&g_ep=EgoyMDI2MDMxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="ai-example">🗺️ Google Maps</a>
+                    <a href="https://www.google.com/search?q=italy+travel+guide+flights+hotels" target="_blank" rel="noopener noreferrer" class="ai-example">🇮🇹 Italy travel</a>
                 </div>
-                <a href="https://komo.ai" target="_blank" class="ai-main-link">SEARCH BING</a>
+                <a href="https://copilot.microsoft.com/" target="_blank" rel="noopener noreferrer" class="ai-main-link">💬 BING COPILOT</a>
             </div>
             <div class="ai-card">
                 <h3>🔍 Komo Search</h3>
                 <p>Privacy-first AI search with mind maps</p>
                 <div class="ai-buttons">
-                    <a href="https://www.flightaware.com/" target="_blank" class="ai-example">🏝️ Thailand</a>
-                    <a href="https://www.wunderground.com/wundermap" class="ai-example">🎒 Europe</a>
+                    <a href="https://www.google.com/search?q=thailand+travel+guide+flights+resorts" target="_blank" rel="noopener noreferrer" class="ai-example">🏝️ Thailand travel</a>
+                    <a href="https://www.wunderground.com/wundermap" target="_blank" rel="noopener noreferrer" class="ai-example">🌦️ Europe weather map</a>
                 </div>
-                <a href="https://komo.ai" target="_blank" class="ai-main-link">SEARCH KOMO</a>
+                <a href="https://komo.ai" target="_blank" rel="noopener noreferrer" class="ai-main-link">🔍 SEARCH KOMO</a>
             </div>
         </div>
     </div>
@@ -499,12 +536,12 @@
             <div class="flight-card">
                 <h3>🗺️ flight planner</h3>
                 <p>Google search for routes, schedules & planning</p>
-                <a href="https://www.google.com/search?q=flight+planner+route+maps+connections" target="_blank" class="flight-button">🔍 SEARCH FLIGHT PLANS</a>
+                <a href="https://www.google.com/search?q=flight+planner+route+maps+connections" target="_blank" rel="noopener noreferrer" class="flight-button">🔍 SEARCH FLIGHT PLANS</a>
             </div>
             <div class="flight-card">
                 <h3>🧘 fly with confidence</h3>
                 <p>Resources for anxious flyers & flight safety</p>
-                <a href="https://www.google.com/search?q=nervous+flyer+support+programs+anxiety" target="_blank" class="flight-button">🔍 FIND SUPPORT</a>
+                <a href="https://www.google.com/search?q=nervous+flyer+support+programs+anxiety" target="_blank" rel="noopener noreferrer" class="flight-button">🔍 FIND SUPPORT</a>
             </div>
         </div>
     </div>
@@ -534,15 +571,15 @@
                     </div>
                     <div id="weatherAlert" class="alert-active">✅ Loading alerts...</div>
                 </div>
-                <a href="https://weather.com" target="_blank" class="weather-link">📡 FULL FORECAST</a>
+                <a href="https://weather.com" target="_blank" rel="noopener noreferrer" class="weather-link">📡 FULL FORECAST</a>
             </div>
             <div class="weather-card">
                 <h3>🌪️ alert resources</h3>
                 <div style="display: flex; gap: 0.8rem; margin: 1rem 0; flex-wrap: wrap;">
-                    <a href="https://www.weather.gov" target="_blank" style="background:#0f495a; color:white; padding:0.5rem 1rem; border-radius:40px; text-decoration:none;">🇺🇸 NWS</a>
-                    <a href="https://www.accuweather.com" target="_blank" style="background:#0f495a; color:white; padding:0.5rem 1rem; border-radius:40px; text-decoration:none;">☀️ AccuWeather</a>
+                    <a href="https://www.weather.gov" target="_blank" rel="noopener noreferrer" style="background:#0f495a; color:white; padding:0.5rem 1rem; border-radius:40px; text-decoration:none;">🇺🇸 NWS</a>
+                    <a href="https://www.accuweather.com" target="_blank" rel="noopener noreferrer" style="background:#0f495a; color:white; padding:0.5rem 1rem; border-radius:40px; text-decoration:none;">☀️ AccuWeather</a>
                 </div>
-                <a href="https://www.google.com/search?q=weather+alerts+near+me" target="_blank" class="weather-link">🔍 SEARCH ALERTS</a>
+                <a href="https://www.google.com/search?q=weather+alerts+near+me" target="_blank" rel="noopener noreferrer" class="weather-link">🔍 SEARCH ALERTS</a>
             </div>
         </div>
     </div>
@@ -555,17 +592,17 @@
                 <h3>📱 yahoo news</h3>
                 <p>AI‑personalized news from 1,000+ premium publishers</p>
                 <div class="ai-buttons">
-                    <a href="https://news.yahoo.com" target="_blank" class="ai-example">🇺🇸 US News</a>
-                    <a href="https://news.yahoo.com/world" target="_blank" class="ai-example">🌍 World</a>
+                    <a href="https://news.yahoo.com" target="_blank" rel="noopener noreferrer" class="ai-example">🇺🇸 US News</a>
+                    <a href="https://news.yahoo.com/world" target="_blank" rel="noopener noreferrer" class="ai-example">🌍 World</a>
                 </div>
-                <a href="https://news.yahoo.com" target="_blank" class="yahoo-button">📰 OPEN YAHOO NEWS</a>
+                <a href="https://news.yahoo.com" target="_blank" rel="noopener noreferrer" class="yahoo-button">📰 OPEN YAHOO NEWS</a>
             </div>
             <div class="news-card">
                 <h3>🎬 entertainment hub</h3>
                 <div class="entertainment-links">
-                    <a href="https://www.yahoo.com/entertainment" target="_blank" class="entertainment-link">⭐ Yahoo Entertainment</a>
-                    <a href="https://www.google.com/search?q=celebrity+news+latest" target="_blank" class="entertainment-link">📸 Celebrity news</a>
-                    <a href="https://www.google.com/search?q=new+movies+releases+2026" target="_blank" class="entertainment-link">🍿 Movie releases</a>
+                    <a href="https://www.yahoo.com/entertainment" target="_blank" rel="noopener noreferrer" class="entertainment-link">⭐ Yahoo Entertainment</a>
+                    <a href="https://www.google.com/search?q=celebrity+news+latest" target="_blank" rel="noopener noreferrer" class="entertainment-link">📸 Celebrity news</a>
+                    <a href="https://www.google.com/search?q=new+movies+releases+2026" target="_blank" rel="noopener noreferrer" class="entertainment-link">🍿 Movie releases</a>
                 </div>
             </div>
         </div>
@@ -599,90 +636,77 @@
     </footer>
 </div>
 
-<!-- ============================================ -->
-<!-- ===== START EDITING YOUR LINKS BELOW ====== -->
-<!-- ============================================ -->
 <script>
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// YOUR 10 TRAVEL LINKS - ALL using url format (NO query)
-// ------------------------------------------------------------------
+// ============================================
+// YOUR 10 TRAVEL LINKS (all working URLs)
+// ============================================
 const yourLinks = [
-    // Link 1 - flight finder with affiliate link
     {
         icon: "✈️",
         label: "flight finder",
-        url: "https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=14430&c=918277&a=788412&k=8D01ED57CC822732C500B0B5FD715DA5&l=2389",  // Replace with your flight affiliate URL
+        url: "https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=14430&c=918277&a=788412&k=8D01ED57CC822732C500B0B5FD715DA5&l=2389",
         desc: "flight deals"
     },
-    // Link 2 - Points awards (already using url)
     {
         icon: "💰",
         label: "Adidas",
         url: "https://mavely.app.link/A7f9qOi7D1b",
         desc: "Adidas"
     },
-    // Link 3 - Business support (already using url)
     {
         icon: "🏨",
         label: "Cosmetics",
         url: "https://mavely.app.link/SXMzk0v7D1b",
         desc: "Armani"
     },
-    // Link 4 - apparel (empty url - needs to be filled)
     {
         icon: "🎭",
         label: "Disney",
-        url: "https://mavely.app.link/NenQZ727D1b",  // NEEDS A URL HERE
+        url: "https://mavely.app.link/NenQZ727D1b",
         desc: "Disney"
     },
-    // Link 5 - food guide with your new affiliate link
     {
         icon: "🍜",
         label: "Beauty & fashion",
         url: "https://mavely.app.link/MWlfqZK7D1b",
         desc: "Beauty and fashion"
     },
-    // Link 6 - transport with your new affiliate link
     {
         icon: "🚆",
         label: "Calvin Klein",
         url: "https://mavely.app.link/3VZappQ6D1b",
-        desc: "Calvin klein"
+        desc: "Calvin Klein"
     },
-    // Link 7 - weather (needs affiliate link)
     {
         icon: "☀️",
-        label: "learn lanquages",
-        url: "https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=31530&c=918277&a=788412&k=6C7CC9A21DCE9271819C3A4169D7B8FC&l=37207",  // NEEDS A URL HERE
-        desc: "Learn lanquages"
+        label: "learn languages",
+        url: "https://afflat3c1.com/trk/lnk/3DF3D7CD-E96F-4A72-9D26-B153F3418388/?o=31530&c=918277&a=788412&k=6C7CC9A21DCE9271819C3A4169D7B8FC&l=37207",
+        desc: "Learn languages"
     },
-    // Link 8 - photo spots (needs affiliate link)
     {
         icon: "📸",
         label: "video editing",
-        url: "https://klap.app/?via=joel-wromas",  // NEEDS A URL HERE
+        url: "https://klap.app/?via=joel-wromas",
         desc: "video editing software"
     },
-    // Link 9 - culture (needs affiliate link)
     {
         icon: "🏛️",
         label: "Video clips",
-        url: "https://www.opus.pro/?via=c93920",  // NEEDS A URL HERE
+        url: "https://www.opus.pro/?via=c93920",
         desc: "Video clips"
     },
-    // Link 10 - safety (needs affiliate link)
     {
         icon: "🛡️",
         label: "Gamestop",
-        url: "https://mavely.app.link/jNsy2997D1b",  // NEEDS A URL HERE
+        url: "https://mavely.app.link/jNsy2997D1b",
         desc: "Gamestop"
     }
 ];
-document.addEventListener('DOMContentLoaded', function() {
+
+// Render the 10 links
+function renderLinks() {
     const grid = document.getElementById('linkGrid');
     if (!grid) return;
-    
     grid.innerHTML = '';
     yourLinks.forEach(item => {
         const card = document.createElement('div');
@@ -694,12 +718,9 @@ document.addEventListener('DOMContentLoaded', function() {
         card.appendChild(iconDiv);
 
         const link = document.createElement('a');
-        if (item.url) {
-            link.href = item.url; // Direct URL (affiliate links)
-        } else {
-            link.href = `https://www.google.com/search?q=${encodeURIComponent(item.query)}`; // Google search
-        }
+        link.href = item.url;
         link.target = '_blank';
+        link.rel = 'noopener noreferrer';
         link.textContent = item.label;
         card.appendChild(link);
 
@@ -710,40 +731,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
         grid.appendChild(card);
     });
-});
+}
 
-// ------------------------------------------------------------------
-// WEATHER WIDGET (separate function, won't interfere with your links)
-// ------------------------------------------------------------------
+// WEATHER WIDGET (live data)
 async function updateWeather() {
     try {
         const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.71&longitude=-74.01&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto');
         const data = await response.json();
-        
+
         if (data.current_weather) {
             const weather = data.current_weather;
             const temp = Math.round(weather.temperature);
-            
-            // Weather description mapping
+
             const descMap = {
                 0: 'Clear sky', 1: 'Mainly clear', 2: 'Partly cloudy', 3: 'Overcast',
                 45: 'Fog', 48: 'Rime fog', 51: 'Light drizzle', 61: 'Light rain',
                 63: 'Moderate rain', 71: 'Light snow', 73: 'Moderate snow', 95: 'Thunderstorm'
             };
             const desc = descMap[weather.weathercode] || 'Unknown';
-            
+
             document.getElementById('currentTemp').textContent = temp + '°F';
             document.getElementById('weatherDesc').textContent = desc;
-            
-            // Get humidity and wind
+
             if (data.hourly) {
                 const humidity = data.hourly.relativehumidity_2m[0] || '--';
                 const wind = Math.round(data.hourly.windspeed_10m[0] || 0);
                 document.getElementById('humidity').textContent = humidity + '%';
                 document.getElementById('wind').textContent = wind + ' mph';
             }
-            
-            // Set alert based on conditions
+
             const alertDiv = document.getElementById('weatherAlert');
             if (weather.weathercode >= 95) {
                 alertDiv.innerHTML = '⚠️ Thunderstorm warning';
@@ -769,13 +785,12 @@ async function updateWeather() {
     }
 }
 
-// Run weather update
-updateWeather();
-setInterval(updateWeather, 300000); // Update every 5 minutes
+// Initialize everything
+document.addEventListener('DOMContentLoaded', () => {
+    renderLinks();
+    updateWeather();
+    setInterval(updateWeather, 300000); // every 5 minutes
+});
 </script>
-<!-- ============================================ -->
-<!-- ===== STOP EDITING - YOUR LINKS ARE ABOVE == -->
-<!-- ============================================ -->
-
 </body>
 </html>
