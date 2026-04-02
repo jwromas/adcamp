@@ -5,9 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>AI Search</title>
-<p><strong>Free • Instant • Cited • No Ads • No Login</strong></p>
+
+<!-- NEW: Meta description added -->
+<meta name="description" content="Free AI search engine that gives instant, cited answers. No ads, no login. Try the smartest way to search the web today.">
+
+<!-- NEW: Open Graph tags for social sharing -->
+<meta property="og:title" content="AI Search – Free, Fast & Accurate">
+<meta property="og:description" content="Get instant, cited answers. No ads, no login.">
+<meta property="og:url" content="https://jwromas.github.io/adcamp/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
 <meta name="google-site-verification" content="google20aa8192d663f319">
-<p>⭐ Trusted by 500+ early users • <a href="https://twitter.com/intent/tweet?url=https://jwromas.github.io/adcamp/">Share</a></p>
 <!--
 ===========================================================================
 Apache License 2.0
@@ -125,23 +134,93 @@ text-decoration:none;
 footer a:hover{
 text-decoration:underline;
 }
+
+/* NEW: styles for example chips and dark mode toggle (keep your look) */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0 30px;
+}
+.chip {
+  background: rgba(20,25,40,0.8);
+  border: 1px solid #4dabf7;
+  border-radius: 40px;
+  padding: 8px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.chip:hover {
+  background: #4dabf7;
+  color: #121425;
+}
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+.social-btn {
+  background: rgba(20,25,40,0.7);
+  border: 1px solid #4dabf7;
+  border-radius: 40px;
+  padding: 6px 16px;
+  text-decoration: none;
+  color: #a0c4ff;
+  font-size: 14px;
+}
+.darkmode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(20,25,40,0.8);
+  border: 1px solid #4dabf7;
+  border-radius: 40px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 999;
+}
 </style>
 </head>
 
 <body>
 
+<!-- NEW: Dark mode toggle button -->
+<button class="darkmode-toggle" id="darkModeToggle">🌙 Dark</button>
+
 <h1>AI Search</h1>
 
+<!-- NEW: Value proposition line -->
+<div style="text-align:center; margin-bottom:20px; font-weight:bold;">⚡ Free • Instant • Cited • No Ads • No Login</div>
+
 <form action="https://www.bing.com/search" method="get" target="_blank">
-<input type="text" name="q" placeholder="Bing Search..." required>
+<input type="text" name="q" id="searchInput" placeholder="Bing Search... (press '/' to focus)" required>
 <button type="submit">Bing Search</button>
 </form>
+
+<!-- NEW: Example search chips -->
+<div class="chips">
+  <div class="chip" data-query="What is quantum computing?">🧠 Quantum computing</div>
+  <div class="chip" data-query="Best coffee beans 2026">☕ Best coffee 2026</div>
+  <div class="chip" data-query="How to learn Python fast">🐍 Learn Python fast</div>
+  <div class="chip" data-query="Latest AI news">🤖 AI news</div>
+</div>
+
+<!-- NEW: Social share + trust line -->
+<div class="social-row">
+  <span>⭐ Trusted by 500+ early users</span>
+  <a href="https://twitter.com/intent/tweet?url=https://jwromas.github.io/adcamp/" class="social-btn" target="_blank">🐦 Share on X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://jwromas.github.io/adcamp/" class="social-btn" target="_blank">🔗 LinkedIn</a>
+</div>
 
 <div class="links">
 
 <a href="https://mavely.app.link/JVeA9Id201b" target="_blank">Womens Health</a>
 
-<a href="https://mavely.app.link/xnVbZLn201b"_blank">Car Rentals</a>
+<a href="https://mavely.app.link/xnVbZLn201b" target="_blank">Car Rentals</a>
 
 <a href="https://mavely.app.link/tOAXFT3101b" target="_blank">Contact Lenses</a>
 
@@ -149,7 +228,6 @@ text-decoration:underline;
 
 <a href="https://jwromas.github.io/jwromas/" target="_blank">Midnight Blue</a>
 <a href="https://jwromas.github.io/adcamp/program-links.html" target="_blank">Travel Assistant</a>
-</div>
 </div>
 
 <div class="google-links">
@@ -161,10 +239,67 @@ text-decoration:underline;
 
 </div>
 
-</body>
 <footer>
-© 2026 Joel Wromas • Apache License 2.0 • Disclaimer
+© 2026 Joel Wromas • Apache License 2.0 • 
+<a href="#" id="privacyLink">Privacy</a> • 
+<a href="#" id="feedbackLink">Feedback</a>
 </footer>
+
+<script>
+// NEW: Dark mode (preserves your original colors, just toggles a light class)
+const toggleBtn = document.getElementById('darkModeToggle');
+function setTheme(light) {
+  if (light) {
+    document.body.style.background = "linear-gradient(135deg,#e0e7ff,#cbd5e1)";
+    document.body.style.color = "#1e293b";
+  } else {
+    document.body.style.background = "linear-gradient(135deg,#121425,#1a1f2e)";
+    document.body.style.color = "#a0c4ff";
+  }
+}
+let isLight = localStorage.getItem('theme') === 'light';
+setTheme(isLight);
+toggleBtn.textContent = isLight ? '☀️ Light' : '🌙 Dark';
+toggleBtn.addEventListener('click', () => {
+  isLight = !isLight;
+  setTheme(isLight);
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  toggleBtn.textContent = isLight ? '☀️ Light' : '🌙 Dark';
+});
+
+// NEW: Keyboard shortcuts
+const searchInput = document.getElementById('searchInput');
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && document.activeElement !== searchInput) {
+    e.preventDefault();
+    searchInput.focus();
+  }
+  if (e.key === 'Escape' && document.activeElement === searchInput) {
+    searchInput.value = '';
+  }
+});
+
+// NEW: Example chips fill search input
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const query = chip.getAttribute('data-query');
+    if (query) {
+      searchInput.value = query;
+      searchInput.focus();
+    }
+  });
+});
+
+// NEW: Simple privacy/feedback alerts (you can replace later)
+document.getElementById('privacyLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('We do not store personal data. Searches go directly to Bing.');
+});
+document.getElementById('feedbackLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('Send feedback to joel@example.com (replace with your real email).');
+});
+</script>
 
 </body>
 </html>
