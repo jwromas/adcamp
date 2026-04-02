@@ -160,7 +160,14 @@ text-decoration:underline;
 <a href="https://www.google.com/webmasters/" target="_blank">Webmaster Tools</a>
 
 </div>
-
+<script>
+  // Add meta description safely without touching existing head
+  var metaDesc = document.createElement('meta');
+  metaDesc.name = "description";
+  metaDesc.content = "Free AI search engine that gives instant, cited answers. No ads, no login. Try the smartest way to search the web today.";
+  document.head.appendChild(metaDesc);
+</script>
+</body>
 <footer>
 © 2026 Joel Wromas • Apache License 2.0 • Disclaimer
 </footer>
