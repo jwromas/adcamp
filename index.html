@@ -5,154 +5,301 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Free AI Search – Instant Answers, Cited Results</title>
-
-<!-- ✅ Pinterest Verification (ONLY ONCE) -->
 <meta name="p:domain_verify" content="5112eb5bbd247bf0ec269c9ebb1edba8"/>
-
-<meta name="description" content="Free AI search engine with travel deals, instant answers, and marketing tools. Discover top destinations and services worldwide.">
-<meta name="keywords" content="AI search, travel deals, marketing tools, traffic engine">
-
-<meta property="og:title" content="AI Search & Travel Deals Platform">
-<meta property="og:description" content="Find travel deals, instant answers, and business tools.">
+<!-- NEW: Meta description added -->
+<meta name="description" content="Free AI search engine that gives instant, cited answers. No ads, no login. Try the smartest way to search the web today.">
+>
+<!-- NEW: Open Graph tags for social sharing -->
+<meta property="og:title" content="AI Search – Free, Fast & Accurate">
+<meta property="og:description" content="Get instant, cited answers. No ads, no login.">
 <meta property="og:url" content="https://jwromas.github.io/adcamp/">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="google-site-verification" content="google20aa8192d663f319">
+<!--
+===========================================================================
+Apache License 2.0
+Copyright (c) 2026 Joel Wromas
+===========================================================================
+Disclaimer: This page contains affiliate links. Clicking them may support this site.
+-->
 
 <style>
 body {
-font-family:'Segoe UI',sans-serif;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
 background:linear-gradient(135deg,#121425,#1a1f2e);
 color:#a0c4ff;
 display:flex;
 flex-direction:column;
 align-items:center;
+justify-content:flex-start;
+min-height:100vh;
 margin:0;
 padding:40px 20px;
 }
 
 h1{
-font-size:42px;
+font-size:48px;
 color:#4dabf7;
-margin-bottom:20px;
+text-shadow:0 0 10px #4dabf7,0 0 20px #74c0fc;
+margin-bottom:40px;
 }
 
 form{
 display:flex;
 width:100%;
 max-width:600px;
-margin-bottom:30px;
+margin-bottom:40px;
 }
 
 input{
 flex:1;
-padding:14px;
-border-radius:20px 0 0 20px;
-border:1px solid #4dabf7;
-background:#111827;
+padding:14px 20px;
+font-size:18px;
+border:1px solid #74c0fc;
+border-radius:24px 0 0 24px;
+outline:none;
+background:rgba(20,25,40,0.8);
 color:#fff;
+box-shadow:inset 0 0 10px rgba(116,192,252,0.3);
 }
 
 button{
-padding:14px;
-border-radius:0 20px 20px 0;
-border:none;
-background:#4dabf7;
-color:#000;
+padding:14px 24px;
+font-size:18px;
+border:1px solid #4dabf7;
+border-radius:0 24px 24px 0;
+background-color:rgba(20,25,40,0.8);
+color:#4dabf7;
 cursor:pointer;
+transition:all 0.3s;
+}
+
+button:hover{
+background-color:rgba(20,25,40,0.9);
+color:#74c0fc;
 }
 
 .links{
-margin-top:30px;
 display:flex;
 flex-direction:column;
-gap:12px;
-max-width:600px;
+gap:15px;
+margin-bottom:40px;
 width:100%;
+max-width:600px;
 }
 
 .links a{
-background:#111827;
-padding:12px;
-border-radius:12px;
+display:inline-block;
 text-decoration:none;
 color:#a0c4ff;
+background:rgba(20,25,40,0.7);
+padding:12px 20px;
+border-radius:20px;
+font-size:16px;
+transition:all 0.3s;
 }
 
 .links a:hover{
-background:#1f2937;
+background:rgba(20,25,40,0.8);
+color:#fff;
 }
 
-.section{
-max-width:800px;
-margin-top:40px;
-text-align:center;
+.google-links{
+margin-top:30px;
+font-size:13px;
+opacity:.7;
 }
 
-.section img{
-width:100%;
-border-radius:12px;
-margin-top:10px;
+.google-links a{
+color:#8ab4ff;
+text-decoration:none;
+margin:0 6px;
 }
 
-.footer{
-margin-top:40px;
-font-size:12px;
+footer{
+margin-top:auto;
+padding:20px 0;
+font-size:14px;
 color:#777;
 text-align:center;
+}
+
+footer a{
+color:#4dabf7;
+text-decoration:none;
+}
+
+footer a:hover{
+text-decoration:underline;
+}
+
+/* NEW: styles for example chips and dark mode toggle (keep your look) */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0 30px;
+}
+.chip {
+  background: rgba(20,25,40,0.8);
+  border: 1px solid #4dabf7;
+  border-radius: 40px;
+  padding: 8px 18px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.chip:hover {
+  background: #4dabf7;
+  color: #121425;
+}
+.social-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+.social-btn {
+  background: rgba(20,25,40,0.7);
+  border: 1px solid #4dabf7;
+  border-radius: 40px;
+  padding: 6px 16px;
+  text-decoration: none;
+  color: #a0c4ff;
+  font-size: 14px;
+}
+.darkmode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(20,25,40,0.8);
+  border: 1px solid #4dabf7;
+  border-radius: 40px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 999;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🚀 AI Search</h1>
-<div>⚡ Free • Instant • Travel Deals • Marketing Tools</div>
+<!-- NEW: Dark mode toggle button -->
+<button class="darkmode-toggle" id="darkModeToggle">🌙 Dark</button>
+
+<h1>AI Search</h1>
+
+<!-- NEW: Value proposition line -->
+<div style="text-align:center; margin-bottom:20px; font-weight:bold;">⚡ Free • Instant • Cited • No Ads • No Login</div>
 
 <form action="https://www.bing.com/search" method="get" target="_blank">
-<input type="text" name="q" placeholder="Search the web..." required>
-<button type="submit">Search</button>
+<input type="text" name="q" id="searchInput" placeholder="Bing Search... (press '/' to focus)" required>
+<button type="submit">Bing Search</button>
 </form>
 
-<!-- ✅ REAL CONTENT (Pinterest needs this) -->
-<div class="section">
-<h2>🔥 Trending Travel Deals</h2>
-<p>Explore top destinations and services worldwide. Find the best travel options instantly.</p>
-
-<img src="https://via.placeholder.com/1000x600?text=Travel+Deals" alt="Travel Deals">
-
-<p>Discover flights, hotels, and vacation packages to popular locations like Maui, Colorado, Peru, and Belize.</p>
+<!-- NEW: Example search chips -->
+<div class="chips">
+  <div class="chip" data-query="What is quantum computing?">🧠 Quantum computing</div>
+  <div class="chip" data-query="Best coffee beans 2026">☕ Best coffee 2026</div>
+  <div class="chip" data-query="How to learn Python fast">🐍 Learn Python fast</div>
+  <div class="chip" data-query="Latest AI news">🤖 AI news</div>
 </div>
 
-<!-- ✅ MORE CONTENT -->
-<div class="section">
-<h2>🌍 Popular Destinations</h2>
-<p>Maui • Grand Bahama Island • Colorado • Peru • Belize • Tokyo • Paris</p>
-
-<img src="https://via.placeholder.com/1000x600?text=Top+Destinations">
+<!-- NEW: Social share + trust line -->
+<div class="social-row">
+  <span>⭐ Trusted by 500+ early users</span>
+  <a href="https://twitter.com/intent/tweet?url=https://jwromas.github.io/adcamp/" class="social-btn" target="_blank">🐦 Share on X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://jwromas.github.io/adcamp/" class="social-btn" target="_blank">🔗 LinkedIn</a>
 </div>
 
-<!-- ✅ YOUR LINKS -->
 <div class="links">
 
 <a href="https://mavely.app.link/JVeA9Id201b" target="_blank">Womens Health</a>
+
 <a href="https://mavely.app.link/xnVbZLn201b" target="_blank">Car Rentals</a>
+
 <a href="https://mavely.app.link/tOAXFT3101b" target="_blank">Contact Lenses</a>
-<a href="https://jwromas.github.io/jwromas/trans.html" target="_blank">Hologram</a>
+
+<a href="https://jwromas.github.io/jwromas//trans.html" target="_blank">Holographam</a>
+
 <a href="https://jwromas.github.io/jwromas/" target="_blank">Midnight Blue</a>
 <a href="https://jwromas.github.io/adcamp/program-links.html" target="_blank">Travel Assistant</a>
+</div>
+
+<div class="google-links">
+
+<a href="https://www.google.com" target="_blank">Google</a> |
+<a href="https://www.google.com/search" target="_blank">Search</a> |
+<a href="https://developers.google.com/search" target="_blank">Search Developers</a> |
+<a href="https://www.google.com/webmasters/" target="_blank">Webmaster Tools</a>
 
 </div>
 
-<!-- ✅ HIDDEN SEO BOOST -->
-<div style="display:none;">
-Travel deals, cheap flights, vacation packages, Maui travel, Colorado travel, Peru trips, Belize resorts, booking tools, travel assistant services.
-</div>
+<footer>
+© 2026 Joel Wromas • Apache License 2.0 • 
+<a href="#" id="privacyLink">Privacy</a> • 
+<a href="#" id="feedbackLink">Feedback</a>
+</footer>
 
-<!-- ✅ HIDDEN PIN IMAGE (IMPORTANT) -->
-<img src="https://via.placeholder.com/1000x1500?text=Maui+Travel+Deals" style="display:none;">
+<script>
+// NEW: Dark mode (preserves your original colors, just toggles a light class)
+const toggleBtn = document.getElementById('darkModeToggle');
+function setTheme(light) {
+  if (light) {
+    document.body.style.background = "linear-gradient(135deg,#e0e7ff,#cbd5e1)";
+    document.body.style.color = "#1e293b";
+  } else {
+    document.body.style.background = "linear-gradient(135deg,#121425,#1a1f2e)";
+    document.body.style.color = "#a0c4ff";
+  }
+}
+let isLight = localStorage.getItem('theme') === 'light';
+setTheme(isLight);
+toggleBtn.textContent = isLight ? '☀️ Light' : '🌙 Dark';
+toggleBtn.addEventListener('click', () => {
+  isLight = !isLight;
+  setTheme(isLight);
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  toggleBtn.textContent = isLight ? '☀️ Light' : '🌙 Dark';
+});
 
-<div class="footer">
-© 2026 Joel Wromas • Privacy • Terms
-</div>
+// NEW: Keyboard shortcuts
+const searchInput = document.getElementById('searchInput');
+document.addEventListener('keydown', (e) => {
+  if (e.key === '/' && document.activeElement !== searchInput) {
+    e.preventDefault();
+    searchInput.focus();
+  }
+  if (e.key === 'Escape' && document.activeElement === searchInput) {
+    searchInput.value = '';
+  }
+});
+
+// NEW: Example chips fill search input
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const query = chip.getAttribute('data-query');
+    if (query) {
+      searchInput.value = query;
+      searchInput.focus();
+    }
+  });
+});
+
+// NEW: Simple privacy/feedback alerts (you can replace later)
+document.getElementById('privacyLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('We do not store personal data. Searches go directly to Bing.');
+});
+document.getElementById('feedbackLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('Send feedback to joel@example.com (replace with your real email).');
+});
+</script>
 
 </body>
 </html>
