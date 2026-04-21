@@ -1,168 +1,78 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from openai import OpenAI
-import datetime
+<!DOCTYPE html>
+<html>
+<head>
+<title>Market Agent Dashboard</title>
 
-app = Flask(__name__)
-CORS(app)
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
 
-# ------------------------
-# LM STUDIO CONNECTION
-# ------------------------
-client = OpenAI(
-    base_url="http://127.0.0.1:1234/v1",
-    api_key="lm-studio"
-)
+.box {
+    background: #1f2937;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
 
-MODEL = "mistral"
+button {
+    padding: 10px;
+    background: #22c55e;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+}
+</style>
+</head>
 
-# ------------------------
-# MEMORY STORAGE
-# ------------------------
-IDEAS = []
-LATEST_ANALYTICS = {}
+<body>
 
+<h1>📊 Market Agent Dashboard</h1>
 
-# ------------------------
-# RECEIVE ANALYTICS FROM MAIN SERVER
-# ------------------------
-@app.route("/update_analytics", methods=["POST"])
-def update_analytics():
+<div class="box" id="analytics">Loading analytics...</div>
 
-    global LATEST_ANALYTICS
+<button onclick="loadDashboard()">Refresh</button>
 
-    data = request.get_json(silent=True)
+<h2>💡 Chat Agent</h2>
 
-    if not isinstance(data, dict):
-        return jsonify({"error": "invalid payload"}), 400
+<input id="msg" placeholder="Ask agent..." style="padding:10px; width:300px;">
+<button onclick="send()">Send</button>
 
-    LATEST_ANALYTICS = data
+<pre id="chat"></pre>
 
-    return jsonify({"status": "ok"})
+<script>
 
+async function loadDashboard() {
+    const res = await fetch("http://127.0.0.1:5051/dashboard");
+    const data = await res.json();
 
-# ------------------------
-# MARKETING CHAT AGENT
-# ------------------------
-@app.route("/chat", methods=["POST"])
-def chat():
+    document.getElementById("analytics").innerText =
+        "Events: " + data.analytics?.total_events +
+        "\nIdeas: " + data.total_ideas;
+}
 
-    data = request.get_json(silent=True)
+async function send() {
+    const msg = document.getElementById("msg").value;
 
-    if not isinstance(data, dict):
-        return jsonify({"error": "invalid payload"}), 400
+    const res = await fetch("http://127.0.0.1:5051/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message: msg })
+    });
 
-    message = data.get("message", "").strip()
+    const data = await res.json();
 
-    if not message:
-        return jsonify({"error": "empty message"}), 400
+    document.getElementById("chat").innerText = data.reply;
+}
 
-    # 🔥 STRICT OUTPUT CONTROL (fixes long answers / UI lag)
-    system_prompt = """
-You are MARKET_AGENT AI.
+loadDashboard();
 
-You are a marketing strategist for websites.
+</script>
 
-RULES:
-- Maximum 5 bullet points
-- No long explanations
-- Be direct and actionable
-- Focus only on growth, SEO, ads, UX improvements
-"""
-
-    context = f"""
-User request:
-{message}
-
-Analytics snapshot:
-{LATEST_ANALYTICS}
-"""
-
-    try:
-        response = client.chat.completions.create(
-            model=MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": context}
-            ]
-        )
-
-        reply = response.choices[0].message.content
-
-        # 🔥 HARD LIMIT (prevents UI “word-by-word overflow”)
-        lines = reply.split("\n")
-        reply = "\n".join(lines[:5])
-
-    except Exception as e:
-        reply = f"AI error: {str(e)}"
-
-    return jsonify({"reply": reply})
-
-
-# ------------------------
-# DAILY MARKETING IDEAS
-# ------------------------
-@app.route("/daily_ideas", methods=["GET"])
-def daily_ideas():
-
-    prompt = f"""
-Generate 5 short marketing improvements:
-
-Analytics:
-{LATEST_ANALYTICS}
-
-Return:
-1 SEO idea
-2 Social media post
-3 Paid ad concept
-4 UX improvement
-5 Viral content idea
-"""
-
-    try:
-        response = client.chat.completions.create(
-            model=MODEL,
-            messages=[
-                {"role": "system", "content": "You are a senior marketing AI."},
-                {"role": "user", "content": prompt}
-            ]
-        )
-
-        idea = response.choices[0].message.content
-
-        IDEAS.append({
-            "timestamp": datetime.datetime.utcnow().isoformat(),
-            "content": idea
-        })
-
-        return jsonify({
-            "ideas": idea,
-            "stored_ideas": len(IDEAS)
-        })
-
-    except Exception as e:
-        return jsonify({"error": str(e)})
-
-
-# ------------------------
-# DASHBOARD (DATA ONLY — NO AI)
-# ------------------------
-@app.route("/dashboard", methods=["GET"])
-def dashboard():
-
-    return jsonify({
-        "analytics": LATEST_ANALYTICS,
-        "total_ideas": len(IDEAS),
-        "latest_idea": IDEAS[-1] if IDEAS else None
-    })
-
-
-# ------------------------
-# RUN SERVER
-# ------------------------
-if __name__ == "__main__":
-    app.run(
-        port=5051,
-        debug=False,
-        use_reloader=False
-    )
+</body>
+</html>
