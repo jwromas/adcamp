@@ -4,34 +4,38 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-
 @app.route("/route", methods=["POST"])
 def route():
 
     data = request.get_json(silent=True) or {}
     message = str(data.get("message", "")).lower()
 
-    # 🧠 SIMPLE RULE-BASED ROUTING (NO AI = FASTER + NEVER FAILS)
+    # -------------------------
+    # KEYWORD ROUTING (FAST)
+    # -------------------------
 
     market_keywords = [
         "promote", "marketing", "seo", "ads", "advertise",
-        "grow", "growth", "branding", "viral", "content"
+        "grow", "growth", "branding", "viral", "content",
+        "traffic increase", "get users", "sales"
     ]
 
     analytics_keywords = [
-        "traffic", "users", "sessions", "data",
-        "dashboard", "track", "analytics", "stats"
+        "traffic", "users", "sessions", "dashboard",
+        "stats", "data", "tracking", "analytics", "performance"
     ]
 
-    # MARKET MATCH
+    # -------------------------
+    # ROUTING LOGIC
+    # -------------------------
+
     if any(word in message for word in market_keywords):
         return jsonify({"agent": "market"})
 
-    # ANALYTICS MATCH
     if any(word in message for word in analytics_keywords):
         return jsonify({"agent": "analytics"})
 
-    # DEFAULT (IMPORTANT - NEVER FAIL)
+    # DEFAULT SAFETY (IMPORTANT)
     return jsonify({"agent": "market"})
 
 
