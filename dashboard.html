@@ -1,61 +1,150 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from openai import OpenAI
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Multi-Agent Dashboard</title>
 
-app = Flask(__name__)
-CORS(app)
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+}
 
-client = OpenAI(
-    base_url="http://127.0.0.1:1234/v1",
-    api_key="lm-studio"
-)
+.container {
+    max-width: 800px;
+    margin: auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
-MODEL = "mistral"
+.header {
+    padding: 15px;
+    background: #111827;
+    text-align: center;
+    font-weight: bold;
+}
 
+.chat {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
 
-@app.route("/route", methods=["POST"])
-def route():
+.msg {
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-radius: 12px;
+    max-width: 70%;
+    white-space: pre-wrap;
+}
 
-    data = request.get_json(silent=True)
-    message = data.get("message", "")
+.user {
+    background: #2563eb;
+    margin-left: auto;
+}
 
-    prompt = f"""
-You are a routing AI.
+.bot {
+    background: #1f2937;
+    margin-right: auto;
+}
 
-Decide which agent should handle this request.
+.input-bar {
+    display: flex;
+    padding: 10px;
+    background: #111827;
+    gap: 10px;
+}
 
-Agents:
-1. analytics → website stats, users, sessions, tracking, data
-2. market → SEO, ads, marketing, growth, content, branding
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
 
-Return ONLY one word:
-analytics OR market
+button {
+    padding: 10px 15px;
+    border: none;
+    background: #22c55e;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+</style>
+</head>
 
-User message:
-{message}
-"""
+<body>
 
-    try:
-        res = client.chat.completions.create(
-            model=MODEL,
-            messages=[
-                {"role": "system", "content": "You are a strict classifier."},
-                {"role": "user", "content": prompt}
-            ]
-        )
+<div class="container">
 
-        decision = res.choices[0].message.content.strip().lower()
+    <div class="header">
+        🤖 Auto AI Multi-Agent Dashboard
+    </div>
 
-        if "market" in decision:
-            decision = "market"
-        else:
-            decision = "analytics"
+    <div id="chat" class="chat"></div>
 
-        return jsonify({"agent": decision})
+    <div class="input-bar">
+        <input id="input" placeholder="Ask anything..." />
+        <button onclick="send()">Send</button>
+    </div>
 
-    except Exception as e:
-        return jsonify({"agent": "analytics", "error": str(e)})
+</div>
 
+<script>
 
-if __name__ == "__main__":
-    app.run(port=5052, debug=False)
+const chat = document.getElementById("chat");
+
+function addMsg(text, type) {
+    const div = document.createElement("div");
+    div.className = "msg " + type;
+    div.textContent = text;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+async function send() {
+
+    const input = document.getElementById("input");
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    addMsg(text, "user");
+    input.value = "";
+
+    // 🧠 STEP 1: AUTO ROUTER DECIDES AGENT
+    const routeRes = await fetch("http://127.0.0.1:5052/route", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message: text })
+    });
+
+    const routeData = await routeRes.json();
+    const agent = routeData.agent;
+
+    // 🧠 STEP 2: SEND TO CORRECT SERVER
+    let url = "http://127.0.0.1:5050/chat"; // analytics default
+
+    if (agent === "market") {
+        url = "http://127.0.0.1:5051/chat";
+    }
+
+    const res = await fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message: text })
+    });
+
+    const data = await res.json();
+
+    addMsg(data.reply || "No response", "bot");
+}
+
+</script>
+
+</body>
+</html>
