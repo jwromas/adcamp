@@ -12,15 +12,60 @@ body {
     padding: 20px;
 }
 
+/* DASHBOARD BOX */
 .box {
     background: #1f2937;
     padding: 15px;
     border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* CHAT CONTAINER */
+.chat-box {
+    height: 350px;
+    overflow-y: auto;
+    background: #111827;
+    padding: 10px;
+    border-radius: 10px;
     margin-bottom: 10px;
 }
 
-button {
+/* MESSAGE BUBBLES */
+.msg {
     padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    max-width: 75%;
+    white-space: pre-wrap;
+}
+
+.user {
+    background: #2563eb;
+    margin-left: auto;
+    text-align: right;
+}
+
+.bot {
+    background: #374151;
+    margin-right: auto;
+}
+
+/* INPUT AREA */
+.input-bar {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+button {
+    padding: 10px 15px;
     background: #22c55e;
     border: none;
     color: white;
@@ -36,40 +81,71 @@ button {
 
 <div class="box" id="analytics">Loading analytics...</div>
 
-<button onclick="loadDashboard()">Refresh</button>
+<button onclick="loadDashboard()">Refresh Stats</button>
 
-<h2>💡 Chat Agent</h2>
+<h2>💡 Market Agent Chat</h2>
 
-<input id="msg" placeholder="Ask agent..." style="padding:10px; width:300px;">
-<button onclick="send()">Send</button>
+<!-- CHAT WINDOW -->
+<div class="chat-box" id="chat"></div>
 
-<pre id="chat"></pre>
+<!-- INPUT -->
+<div class="input-bar">
+    <input id="msg" placeholder="Ask marketing agent..." />
+    <button onclick="send()">Send</button>
+</div>
 
 <script>
 
+// ------------------------
+// LOAD DASHBOARD DATA
+// ------------------------
 async function loadDashboard() {
     const res = await fetch("http://127.0.0.1:5051/dashboard");
     const data = await res.json();
 
     document.getElementById("analytics").innerText =
-        "Events: " + data.analytics?.total_events +
-        "\nIdeas: " + data.total_ideas;
+        "Events: " + (data.analytics?.total_events || 0) +
+        "\nIdeas: " + (data.total_ideas || 0);
 }
 
+// ------------------------
+// ADD MESSAGE TO CHAT
+// ------------------------
+function addMsg(text, type) {
+    const div = document.createElement("div");
+    div.classList.add("msg", type);
+    div.textContent = text;
+
+    const chat = document.getElementById("chat");
+    chat.appendChild(div);
+
+    chat.scrollTop = chat.scrollHeight;
+}
+
+// ------------------------
+// SEND MESSAGE
+// ------------------------
 async function send() {
-    const msg = document.getElementById("msg").value;
+    const input = document.getElementById("msg");
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    addMsg(text, "user");
+    input.value = "";
 
     const res = await fetch("http://127.0.0.1:5051/chat", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ message: msg })
+        body: JSON.stringify({ message: text })
     });
 
     const data = await res.json();
 
-    document.getElementById("chat").innerText = data.reply;
+    addMsg(data.reply || "No response", "bot");
 }
 
+// INIT
 loadDashboard();
 
 </script>
