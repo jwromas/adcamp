@@ -11,31 +11,32 @@ def route():
     message = str(data.get("message", "")).lower()
 
     # -------------------------
-    # KEYWORD ROUTING (FAST)
+    # MARKET KEYWORDS
     # -------------------------
-
-    market_keywords = [
+    market_keywords = (
         "promote", "marketing", "seo", "ads", "advertise",
         "grow", "growth", "branding", "viral", "content",
-        "traffic increase", "get users", "sales"
-    ]
+        "get users", "increase traffic", "sales", "campaign"
+    )
 
-    analytics_keywords = [
+    # -------------------------
+    # ANALYTICS KEYWORDS
+    # -------------------------
+    analytics_keywords = (
         "traffic", "users", "sessions", "dashboard",
         "stats", "data", "tracking", "analytics", "performance"
-    ]
+    )
 
     # -------------------------
-    # ROUTING LOGIC
+    # ROUTING LOGIC (FAST + SAFE)
     # -------------------------
-
     if any(word in message for word in market_keywords):
         return jsonify({"agent": "market"})
 
     if any(word in message for word in analytics_keywords):
         return jsonify({"agent": "analytics"})
 
-    # DEFAULT SAFETY (IMPORTANT)
+    # DEFAULT (NEVER FAIL)
     return jsonify({"agent": "market"})
 
 
