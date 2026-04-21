@@ -1,150 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>AI Multi-Agent Dashboard</title>
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from openai import OpenAI
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
-}
+app = Flask(__name__)
+CORS(app)
 
-.container {
-    max-width: 800px;
-    margin: auto;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
+client = OpenAI(
+    base_url="http://127.0.0.1:1234/v1",
+    api_key="lm-studio"
+)
 
-.header {
-    padding: 15px;
-    background: #111827;
-    text-align: center;
-    font-weight: bold;
-}
+MODEL = "mistral"
 
-.chat {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-}
 
-.msg {
-    margin: 10px 0;
-    padding: 10px 14px;
-    border-radius: 12px;
-    max-width: 70%;
-    white-space: pre-wrap;
-}
+@app.route("/route", methods=["POST"])
+def route():
 
-.user {
-    background: #2563eb;
-    margin-left: auto;
-}
+    data = request.get_json(silent=True)
 
-.bot {
-    background: #1f2937;
-    margin-right: auto;
-}
+    if not isinstance(data, dict):
+        return jsonify({"agent": "analytics"})
 
-.input-bar {
-    display: flex;
-    padding: 10px;
-    background: #111827;
-    gap: 10px;
-}
+    message = data.get("message", "").lower().strip()
 
-input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-}
+    prompt = f"""
+You are a STRICT routing system.
 
-button {
-    padding: 10px 15px;
-    border: none;
-    background: #22c55e;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-}
-</style>
-</head>
+You must choose ONLY ONE:
 
-<body>
+- analytics = website data, users, traffic, sessions, dashboards, tracking
+- market = marketing, SEO, ads, promotion, growth, branding, content
 
-<div class="container">
+IMPORTANT RULES:
+- If message contains: promote, grow, advertise, SEO, marketing → ALWAYS choose market
+- If message is about increasing users or visibility → market
+- If message is about numbers or stats → analytics
 
-    <div class="header">
-        🤖 Auto AI Multi-Agent Dashboard
-    </div>
+Return ONLY ONE WORD:
+analytics OR market
 
-    <div id="chat" class="chat"></div>
+Message:
+{message}
+"""
 
-    <div class="input-bar">
-        <input id="input" placeholder="Ask anything..." />
-        <button onclick="send()">Send</button>
-    </div>
+    try:
+        res = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": "You are a strict classification router."},
+                {"role": "user", "content": prompt}
+            ]
+        )
 
-</div>
+        decision = res.choices[0].message.content.lower()
 
-<script>
+        if "market" in decision:
+            return jsonify({"agent": "market"})
+        else:
+            return jsonify({"agent": "analytics"})
 
-const chat = document.getElementById("chat");
+    except Exception:
+        return jsonify({"agent": "analytics"})
 
-function addMsg(text, type) {
-    const div = document.createElement("div");
-    div.className = "msg " + type;
-    div.textContent = text;
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-}
 
-async function send() {
-
-    const input = document.getElementById("input");
-    const text = input.value.trim();
-
-    if (!text) return;
-
-    addMsg(text, "user");
-    input.value = "";
-
-    // 🧠 STEP 1: AUTO ROUTER DECIDES AGENT
-    const routeRes = await fetch("http://127.0.0.1:5052/route", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ message: text })
-    });
-
-    const routeData = await routeRes.json();
-    const agent = routeData.agent;
-
-    // 🧠 STEP 2: SEND TO CORRECT SERVER
-    let url = "http://127.0.0.1:5050/chat"; // analytics default
-
-    if (agent === "market") {
-        url = "http://127.0.0.1:5051/chat";
-    }
-
-    const res = await fetch(url, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ message: text })
-    });
-
-    const data = await res.json();
-
-    addMsg(data.reply || "No response", "bot");
-}
-
-</script>
-
-</body>
-</html>
+if __name__ == "__main__":
+    app.run(port=5052, debug=False)
