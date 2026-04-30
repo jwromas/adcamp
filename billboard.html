@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORLD FLIGHTS - LIVE BILLBOARD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+        }
+        .billboard {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: #000;
+            border: 3px solid #00ff88;
+        }
+        .header {
+            background: #001a1a;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #00ff88;
+        }
+        .header h1 {
+            color: #00ff88;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ff88;
+        }
+        .date {
+            color: #ffcc00;
+            margin-top: 10px;
+        }
+        .main-link {
+            background: #001a1a;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #00ff88;
+        }
+        .main-link a {
+            color: #ffcc00;
+            font-size: 1.8em;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            display: inline-block;
+        }
+        .main-link a:hover {
+            text-shadow: 0 0 10px #ffcc00;
+        }
+        .board {
+            padding: 20px;
+        }
+        .board-header {
+            display: grid;
+            grid-template-columns: 80px 100px 100px 80px 80px 100px;
+            background: #001a1a;
+            padding: 15px;
+            color: #00ff88;
+            font-weight: bold;
+            border-bottom: 2px solid #00ff88;
+        }
+        .flight-row {
+            display: grid;
+            grid-template-columns: 80px 100px 100px 80px 80px 100px;
+            padding: 12px 15px;
+            border-bottom: 1px solid #003333;
+            color: white;
+        }
+        .flight-row:hover {
+            background: #0a1a1a;
+        }
+        .status-on-time { color: #00ff88; }
+        .status-boarding { color: #ffcc00; }
+        .status-departed { color: #00aaff; }
+        .status-gate-open { color: #ff6600; }
+        .status-scheduled { color: #ccc; }
+        .track-link {
+            color: #00ff88;
+            text-decoration: none;
+        }
+        .live-section {
+            background: #001a1a;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #00ff88;
+            margin-top: 10px;
+        }
+        .live-button {
+            display: inline-block;
+            background: #00ff88;
+            color: #000;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.3em;
+            border-radius: 10px;
+            margin: 10px;
+        }
+        .live-button:hover {
+            background: #00cc66;
+            transform: scale(1.05);
+        }
+        .affiliate-section {
+            background: #001a1a;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        .affiliate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .affiliate-card {
+            background: #0a1a1a;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #00ff88;
+            border-radius: 5px;
+        }
+        .affiliate-card a {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .affiliate-card a:hover {
+            color: #ffcc00;
+        }
+        .footer {
+            background: #000;
+            padding: 15px;
+            text-align: center;
+            color: #006666;
+            font-size: 0.8em;
+        }
+        @media (max-width: 800px) {
+            .board-header, .flight-row {
+                grid-template-columns: 60px 70px 70px 60px 60px 70px;
+                font-size: 0.7em;
+            }
+            .main-link a {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="billboard">
+        <div class="header">
+            <h1>✈️ WORLD FLIGHTS</h1>
+            <div class="date">Thursday, April 30, 2026 | 15:49 UTC</div>
+        </div>
+        
+        <div class="main-link">
+            <a href="https://jwromas.github.io/adcamp/" target="_blank">
+                🌐 https://jwromas.github.io/adcamp/
+            </a>
+        </div>
+        
+        <div class="board">
+            <div class="board-header">
+                <span>FLIGHT</span>
+                <span>FROM</span>
+                <span>TO</span>
+                <span>GATE</span>
+                <span>TIME</span>
+                <span>STATUS</span>
+            </div>
+
+            <div class="flight-row">
+                <span>CX789</span>
+                <span>HKG</span>
+                <span>LHR</span>
+                <span>H04</span>
+                <span>23:45</span>
+                <span class="status-scheduled">Scheduled</span>
+            </div>
+            <div class="flight-row">
+                <span>AF789</span>
+                <span>CDG</span>
+                <span>LAX</span>
+                <span>K06</span>
+                <span>18:30</span>
+                <span class="status-on-time">On Time</span>
+            </div>
+            <div class="flight-row">
+                <span>EK567</span>
+                <span>DXB</span>
+                <span>SYD</span>
+                <span>E03</span>
+                <span>14:20</span>
+                <span class="status-on-time">On Time</span>
+            </div>
+            <div class="flight-row">
+                <span>DL456</span>
+                <span>LAX</span>
+                <span>HND</span>
+                <span>A12</span>
+                <span>11:45</span>
+                <span class="status-boarding">Boarding</span>
+            </div>
+            <div class="flight-row">
+                <span>SQ321</span>
+                <span>SIN</span>
+                <span>LHR</span>
+                <span>I09</span>
+                <span>22:30</span>
+                <span class="status-scheduled">Scheduled</span>
+            </div>
+            <div class="flight-row">
+                <span>KL234</span>
+                <span>AMS</span>
+                <span>ATL</span>
+                <span>L14</span>
+                <span>19:15</span>
+                <span class="status-on-time">On Time</span>
+            </div>
+            <div class="flight-row">
+                <span>NH456</span>
+                <span>HND</span>
+                <span>SFO</span>
+                <span>G11</span>
+                <span>15:30</span>
+                <span class="status-on-time">On Time</span>
+            </div>
+            <div class="flight-row">
+                <span>BA234</span>
+                <span>LHR</span>
+                <span>DXB</span>
+                <span>D15</span>
+                <span>13:00</span>
+                <span class="status-gate-open">Gate Open</span>
+            </div>
+            <div class="flight-row">
+                <span>QF123</span>
+                <span>SYD</span>
+                <span>LAX</span>
+                <span>F07</span>
+                <span>09:15</span>
+                <span class="status-departed">Departed</span>
+            </div>
+            <div class="flight-row">
+                <span>AA101</span>
+                <span>JFK</span>
+                <span>LHR</span>
+                <span>B22</span>
+                <span>10:30</span>
+                <span class="status-on-time">On Time</span>
+            </div>
+            <div class="flight-row">
+                <span>LH456</span>
+                <span>FRA</span>
+                <span>JFK</span>
+                <span>J12</span>
+                <span>16:45</span>
+                <span class="status-on-time">On Time</span>
+            </div>
+            <div class="flight-row">
+                <span>UA789</span>
+                <span>ORD</span>
+                <span>CDG</span>
+                <span>C08</span>
+                <span>12:15</span>
+                <span class="status-on-time">On Time</span>
+            </div>
+        </div>
+        
+        <div class="live-section">
+            <a href="https://www.flightradar24.com" class="live-button" target="_blank">
+                🌍 LIVE FLIGHT TRACKER →
+            </a>
+            <div style="margin-top: 10px;">
+                <a href="https://globe.adsbexchange.com" target="_blank" style="color: #00cc66; margin: 0 10px;">📡 ADSB Exchange</a>
+                <a href="https://www.flightaware.com/live" target="_blank" style="color: #00cc66; margin: 0 10px;">✈️ FlightAware</a>
+            </div>
+        </div>
+        
+        <div class="affiliate-section">
+            <div style="text-align: center; color: #00ff88; font-size: 1.2em;">🎯 PARTNER OFFERS</div>
+            <div class="affiliate-grid">
+                <div class="affiliate-card">
+                    <a href="https://www.booking.com/flights/index.html" target="_blank">✈️ Flight Deals</a>
+                </div>
+                <div class="affiliate-card">
+                    <a href="https://www.booking.com" target="_blank">🏨 Hotels</a>
+                </div>
+                <div class="affiliate-card">
+                    <a href="https://www.expedia.com/Vacation-Packages" target="_blank">🎁 Vacation Packages</a>
+                </div>
+                <div class="affiliate-card">
+                    <a href="https://www.insuremytrip.com" target="_blank">🛡️ Travel Insurance</a>
+                </div>
+                <div class="affiliate-card">
+                    <a href="https://www.rentalcars.com" target="_blank">🚗 Rental Cars</a>
+                </div>
+                <div class="affiliate-card">
+                    <a href="https://www.viator.com" target="_blank">🎪 Activities</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            LIVE BILLBOARD • REAL FLIGHT DATA • AFFILIATE PARTNERS
+        </div>
+    </div>
+</body>
+</html>
