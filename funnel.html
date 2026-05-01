@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Horizon Compass · True North</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* cleaner tap on mobile */
+        }
+
+        body {
+            background: radial-gradient(circle at 30% 10%, #0c1a28, #030c14);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 1.5rem;
+        }
+
+        /* premium card – honor & precision */
+        .honor-card {
+            max-width: 560px;
+            width: 100%;
+            background: rgba(12, 28, 40, 0.7);
+            backdrop-filter: blur(16px);
+            border-radius: 4rem;
+            padding: 2rem 1.8rem 2.2rem;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.3);
+            transition: all 0.2s;
+        }
+
+        .title-badge {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: #c9a03d;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f3e2b0, #c9a03d, #f3e2b0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.25rem;
+        }
+
+        .sub {
+            font-size: 0.75rem;
+            color: #8aaec0;
+            border-bottom: 1px dashed rgba(201, 160, 61, 0.5);
+            display: inline-block;
+            padding-bottom: 6px;
+            margin-bottom: 1.4rem;
+        }
+
+        /* svg compass container */
+        .compass-touch {
+            width: 260px;
+            height: 260px;
+            margin: 0 auto 0.8rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
+            transition: filter 0.2s;
+        }
+
+        svg:active {
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+        }
+
+        /* direction buttons (tactile) */
+        .true-panel {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0 0.8rem;
+        }
+
+        .true-btn {
+            background: rgba(20, 40, 55, 0.9);
+            border: 1px solid #c9a03d;
+            color: #ecdca8;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 48px;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+            transition: 0.15s linear;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .true-btn:active {
+            transform: scale(0.96);
+            background: #c9a03d;
+            color: #0a1622;
+        }
+
+        .status-message {
+            background: #07131ecc;
+            border-radius: 60px;
+            padding: 0.6rem 1rem;
+            font-size: 0.8rem;
+            color: #b9d2e8;
+            margin: 1rem 0 0.2rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .status-message strong {
+            color: #e8c97a;
+            font-weight: 700;
+        }
+
+        .travel-footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            margin-top: 1.2rem;
+        }
+
+        .travel-footer a {
+            font-size: 0.7rem;
+            color: #c9a03d;
+            text-decoration: none;
+            background: #071e2c66;
+            padding: 0.25rem 0.9rem;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+
+        .travel-footer a:hover {
+            background: #c9a03d;
+            color: #0f1f2e;
+        }
+
+        .true-north-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #0d2b3b;
+            padding: 0.2rem 0.8rem;
+            border-radius: 32px;
+            font-size: 0.65rem;
+            color: #c9b179;
+            margin-top: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+<div class="honor-card">
+    <div class="title-badge">⚔️ true alignment ⚔️</div>
+    <h1>HORIZON COMPASS</h1>
+    <div class="sub">true north · absolute bearing</div>
+
+    <!-- COMPASS : CLICK OR TAP TO FIND TRUE DIRECTION -->
+    <div class="compass-touch" id="compassZone">
+        <svg viewBox="0 0 200 200" id="trueCompassSvg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="bgCompass" cx="50%" cy="50%" r="52%">
+                    <stop offset="0%" stop-color="#2a4b6e"/>
+                    <stop offset="100%" stop-color="#0a1824"/>
+                </radialGradient>
+            </defs>
+            <!-- outer rings -->
+            <circle cx="100" cy="100" r="94" fill="url(#bgCompass)" stroke="#c9a03d" stroke-width="1.8"/>
+            <circle cx="100" cy="100" r="86" fill="none" stroke="#8aaec0" stroke-width="0.8" stroke-dasharray="3 3"/>
+            
+            <!-- N - S - E - W (true markers) -->
+            <text x="100" y="22" text-anchor="middle" fill="#f5deab" font-weight="bold" font-size="18" font-family="Georgia, serif">N</text>
+            <text x="100" y="192" text-anchor="middle" fill="#b6d0e8" font-size="15" font-family="serif">S</text>
+            <text x="185" y="107" text-anchor="middle" fill="#b6d0e8" font-size="15" font-family="serif">E</text>
+            <text x="15" y="107" text-anchor="middle" fill="#b6d0e8" font-size="15" font-family="serif">W</text>
+
+            <!-- intercardinal (style) -->
+            <text x="141" y="32" font-size="10" fill="#7c9abe" font-family="serif">NE</text>
+            <text x="141" y="182" font-size="10" fill="#7c9abe" font-family="serif">SE</text>
+            <text x="52" y="32" font-size="10" fill="#7c9abe" font-family="serif">NW</text>
+            <text x="52" y="182" font-size="10" fill="#7c9abe" font-family="serif">SW</text>
+
+            <!-- Rotating needle / arrow (TRUE DIRECTION indicator) -->
+            <g id="trueNeedle" transform="rotate(0, 100, 100)">
+                <polygon points="100,24 108,92 100,86 92,92" fill="#c9a03d" stroke="#f3e0ac" stroke-width="0.6"/>
+                <polygon points="100,176 107,108 100,114 93,108" fill="#6283a3" stroke="#aac2df" stroke-width="0.5"/>
+                <circle cx="100" cy="100" r="8" fill="#091e2c" stroke="#e8c97a" stroke-width="1.6"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- True direction buttons (geographic) -->
+    <div class="true-panel">
+        <button class="true-btn" data-true-dir="N">⬆️ NORTH</button>
+        <button class="true-btn" data-true-dir="E">➡️ EAST</button>
+        <button class="true-btn" data-true-dir="S">⬇️ SOUTH</button>
+        <button class="true-btn" data-true-dir="W">⬅️ WEST</button>
+    </div>
+
+    <div class="status-message">
+        🧭 <strong id="bearingDisplay">TRUE NORTH</strong> · no deviation · absolute bearing
+    </div>
+
+    <!-- wander resources -->
+    <div class="travel-footer">
+        <a href="https://jwromas.github.io/adcamp/program-links.html" target="_blank">🗺️ WanderLink</a>
+        <a href="https://jwromas.github.io/adcamp/travel-page-3.html" target="_blank">✈️ Flight Planner</a>
+        <a href="https://jwromas.github.io/adcamp/" target="_blank">🤖 AdCamp AI</a>
+        <a href="https://jwromas.github.io/adcamp/program-links.html#safety" target="_blank">🛡️ Safety Radar</a>
+    </div>
+
+    <div class="true-north-note">
+        <span>⚡</span> TRUE NORTH · reliable as your next journey
+    </div>
+</div>
+
+<script>
+    (function() {
+        const needle = document.getElementById('trueNeedle');
+        const bearingSpan = document.getElementById('bearingDisplay');
+        const directionMap = { N: 0, E: 90, S: 180, W: 270 };
+
+        function setTrueDirection(deg, dirLabel) {
+            if (!needle) return;
+            needle.setAttribute('transform', `rotate(${deg}, 100, 100)`);
+            if (bearingSpan) {
+                bearingSpan.innerText = `${dirLabel} (${deg}°) · TRUE BEARING`;
+                setTimeout(() => {
+                    if (bearingSpan.innerText.includes('TRUE BEARING')) {
+                        bearingSpan.innerText = dirLabel === 'N' ? 'TRUE NORTH' : `${dirLabel} · absolute`;
+                    }
+                }, 1200);
+            }
+        }
+
+        // Button clicks (geographic directions)
+        const btns = document.querySelectorAll('.true-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const dir = btn.getAttribute('data-true-dir');
+                if (dir && directionMap[dir] !== undefined) {
+                    setTrueDirection(directionMap[dir], dir);
+                }
+            });
+        });
+
+        // Touch/click on compass zone (use SVG click mapping for true direction)
+        const compassZone = document.getElementById('compassZone');
+        if (compassZone) {
+            compassZone.addEventListener('click', (event) => {
+                const svgElem = document.getElementById('trueCompassSvg');
+                if (!svgElem) return;
+                const rect = svgElem.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+                const dx = x - cx;
+                const dy = y - cy;
+                let angleRad = Math.atan2(dy, dx);
+                let angleDeg = (angleRad * 180 / Math.PI + 360) % 360;
+                // Adjust so North = 0° (up)
+                let cardinalDeg = (angleDeg + 90) % 360;
+                let newDir = '';
+                if (cardinalDeg >= 45 && cardinalDeg < 135) newDir = 'E';
+                else if (cardinalDeg >= 135 && cardinalDeg < 225) newDir = 'S';
+                else if (cardinalDeg >= 225 && cardinalDeg < 315) newDir = 'W';
+                else newDir = 'N';
+
+                const finalRotation = directionMap[newDir];
+                if (finalRotation !== undefined) {
+                    needle.setAttribute('transform', `rotate(${finalRotation}, 100, 100)`);
+                    bearingSpan.innerText = `${newDir} · true geographic direction`;
+                    setTimeout(() => {
+                        if (bearingSpan.innerText.includes('true geographic')) bearingSpan.innerText = newDir === 'N' ? 'TRUE NORTH' : `${newDir} · locked`;
+                    }, 1000);
+                }
+            });
+        }
+
+        // initialization: true north
+        setTrueDirection(0, 'N');
+    })();
+</script>
+</body>
+</html>
