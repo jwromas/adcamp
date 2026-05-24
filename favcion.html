@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ADCAMP | 3D Compass Emblem</title>
+    <!-- Google Fonts for sleek typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* polished feel, avoid selection on interactive elements */
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 20% 30%, #0a0f1e, #03060c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+            cursor: default;
+        }
+
+        /* main glassmorphic card */
+        .emblem-container {
+            background: rgba(12, 20, 30, 0.35);
+            backdrop-filter: blur(4px);
+            border-radius: 4rem;
+            padding: 2rem 2.2rem 2.5rem 2.2rem;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            border: 1px solid rgba(90, 150, 200, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        /* main canvas area - sharp 3D compass */
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 2rem;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.4)) drop-shadow(0 0 5px rgba(0,180,255,0.3));
+            transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        canvas:hover {
+            transform: scale(1.01);
+        }
+
+        /* heading area with premium link style */
+        .brand-head {
+            text-align: center;
+            margin-top: 1.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .adcamp-link {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF, #B9E6FF, #6EC8FF);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            transition: all 0.25s ease;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .adcamp-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #3bc0fc, #a06eff, #3bc0fc);
+            border-radius: 4px;
+            transition: width 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .adcamp-link:hover::after {
+            width: 100%;
+        }
+
+        .adcamp-link:hover {
+            filter: brightness(1.05) drop-shadow(0 0 8px rgba(80,180,255,0.5));
+            transform: scale(1.02);
+        }
+
+        .sub {
+            text-align: center;
+            margin-top: 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #8fa6c2;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            width: auto;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+        }
+
+        .flex-sub {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* decorative subtle glow */
+        .compass-glow {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(0,160,255,0.15), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(30px);
+        }
+
+        @media (max-width: 550px) {
+            .emblem-container {
+                padding: 1.2rem 1rem 1.8rem 1rem;
+            }
+            .adcamp-link {
+                font-size: 2.5rem;
+            }
+            canvas {
+                width: 220px;
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div style="position: relative; display: flex; justify-content: center; align-items: center;">
+    <div class="compass-glow" style="top: 30%; left: 20%;"></div>
+    <div class="emblem-container">
+        <!-- 3D COMPASS CANVAS (FAVICON STYLE EMBLEM, sharp and dynamic) -->
+        <canvas id="compassCanvas" width="280" height="280" style="width: 280px; height: 280px;"></canvas>
+        
+        <div class="brand-head">
+            <a href="https://jwromas.github.io/adcamp/" class="adcamp-link" target="_blank" rel="noopener noreferrer">
+                ADCAMP
+            </a>
+            <div class="flex-sub">
+                <div class="sub">✦ precision navigation ✦</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const canvas = document.getElementById('compassCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // high DPI handling for crispness
+        const size = 280;
+        canvas.width = size;
+        canvas.height = size;
+        
+        let angle = 0;        // current rotation angle (radians)
+        let targetAngle = 0;
+        let animFrameId = null;
+        let lastTimestamp = 0;
+        
+        // subtle interactive rotation: compass follows mouse movement (gentle dynamic)
+        let mouseX = 0, mouseY = 0;
+        let centerX = size/2, centerY = size/2;
+        let isMouseInside = false;
+        
+        // dynamic 3D lighting offset
+        let lightShift = 0;
+        let time = 0;
+        
+        // --------------------------------------------------------------
+        // DRAW SHARP 3D COMPASS EMBLEM (realistic metal, gradients, bevels)
+        // --------------------------------------------------------------
+        function drawCompass(currentAngleRad, lightOffset = 0) {
+            if (!ctx) return;
+            
+            const w = size, h = size;
+            const cx = w/2, cy = h/2;
+            const maxRadius = w * 0.44;   // outer ring radius (balanced)
+            
+            // clear canvas with deep transparent but we draw solid emblem (polished)
+            ctx.clearRect(0, 0, w, h);
+            
+            // ---- 1. Outer metallic ring (3D bevel effect) ----
+            const ringOuterR = maxRadius;
+            const ringInnerR = maxRadius * 0.82;
+            
+            // metallic gradient for outer ring (dynamic light offset based on time and mouse)
+            const gradRing = ctx.createLinearGradient(
+                cx - ringOuterR*0.3, cy - ringOuterR*0.4,
+                cx + ringOuterR*0.5, cy + ringOuterR*0.6
+            );
+            gradRing.addColorStop(0, '#E9F2FA');
+            gradRing.addColorStop(0.3, '#C0D4EC');
+            gradRing.addColorStop(0.7, '#8DA9CC');
+            gradRing.addColorStop(1, '#4A6A8E');
+            ctx.beginPath();
+            ctx.arc(cx, cy, ringOuterR, 0, Math.PI*2);
+            ctx.fillStyle = gradRing;
+            ctx.fill();
+            // extra highlight ring (rim)
+            ctx.beginPath();
+            ctx.arc(cx, cy, ringOuterR-2, 0, Math.PI*2);
+            ctx.strokeStyle = '#FFFFFFCC';
+            ctx.lineWidth = 1.8;
+            ctx.stroke();
+            
+            // inner dark groove
+            ctx.beginPath();
+            ctx.arc(cx, cy, ringInnerR+2, 0, Math.PI*2);
+            ctx.fillStyle = '#1E2A36';
+            ctx.fill();
+            
+            // inner metal face (compass plate)
+            const plateGrad = ctx.createRadialGradient(cx-6, cy-6, 5, cx, cy, ringInnerR);
+            plateGrad.addColorStop(0, '#15222e');
+            plateGrad.addColorStop(0.7, '#0E1620');
+            plateGrad.addColorStop(1, '#03070f');
+            ctx.beginPath();
+            ctx.arc(cx, cy, ringInnerR, 0, Math.PI*2);
+            ctx.fillStyle = plateGrad;
+            ctx.fill();
+            
+            // fine brushed metal lines (tiny concentric circles)
+            for (let i = 0; i < 3; i++) {
+                let r = ringInnerR - 8 - i*7;
+                if (r > 12) {
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI*2);
+                    ctx.strokeStyle = `rgba(180,210,240,${0.12 + i*0.03})`;
+                    ctx.lineWidth = 1.2;
+                    ctx.stroke();
+                }
+            }
+            
+            // ----- 2. Compass Rose (Dynamic needle + directional markers) -----
+            // rotate entire canvas for needle / dial orientation
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(currentAngleRad);
+            
+            // --- cardinal points (N, S, E, W) with 3D beveled style
+            const markerRadius = ringInnerR - 8;
+            const markerLength = 17;
+            // draw golden / silver markers for each direction
+            const directions = ['N', 'S', 'E', 'W'];
+            const dirAngles = [0, Math.PI, Math.PI/2, -Math.PI/2];
+            
+            for (let i = 0; i < directions.length; i++) {
+                let ang = dirAngles[i];
+                let dx = Math.sin(ang) * (markerRadius - 2);
+                let dy = -Math.cos(ang) * (markerRadius - 2);
+                let isNorth = (directions[i] === 'N');
+                // custom styling for north pointer (ruby gem effect)
+                ctx.save();
+                ctx.translate(dx, dy);
+                ctx.rotate(ang);
+                ctx.shadowBlur = 0;
+                // background shield
+                ctx.beginPath();
+                ctx.rect(-10, -12, 20, 24);
+                ctx.fillStyle = isNorth ? '#A52A2A' : '#2C3E50';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.rect(-8, -10, 16, 20);
+                ctx.fillStyle = isNorth ? '#D4320F' : '#4B6E8A';
+                ctx.fill();
+                ctx.font = `bold ${isNorth ? 20 : 18}px "Inter", "Segoe UI"`;
+                ctx.fillStyle = isNorth ? '#FFE6B0' : '#F0F4FA';
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = 2;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(directions[i], 0, 1);
+                ctx.restore();
+            }
+            
+            // draw intercardinal tiny dots (NE, NW, SE, SW) crisp details
+            const dotRadius = 4;
+            const interRadius = markerRadius - 3;
+            const interAngles = [Math.PI/4, 3*Math.PI/4, 5*Math.PI/4, 7*Math.PI/4];
+            interAngles.forEach(ang => {
+                let dx = Math.sin(ang) * interRadius;
+                let dy = -Math.cos(ang) * interRadius;
+                ctx.beginPath();
+                ctx.arc(dx, dy, dotRadius, 0, Math.PI*2);
+                ctx.fillStyle = '#DDAA55';
+                ctx.shadowBlur = 3;
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(dx, dy, dotRadius-1.5, 0, Math.PI*2);
+                ctx.fillStyle = '#FEE3A0';
+                ctx.fill();
+            });
+            
+            // ----- 3. MAIN NEEDLE (magnetic north/south indicator, 3D dynamic) -----
+            // double-bladed needle with metallic gradients and specular
+            
+            // needle length: from -radius+5 to +radius-6
+            const needleLen = ringInnerR - 12;
+            const needleWidthBase = 12;
+            const tipWidth = 3;
+            
+            // NORTH part (red/gold sophisticated)
+            ctx.beginPath();
+            ctx.moveTo(0, -needleLen);
+            ctx.lineTo(needleWidthBase/2, -needleLen+22);
+            ctx.lineTo(needleWidthBase/2.5, -12);
+            ctx.lineTo(tipWidth, -4);
+            ctx.lineTo(0, 0);
+            ctx.fillStyle = '#E34234';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(0, -needleLen);
+            ctx.lineTo(-needleWidthBase/2, -needleLen+22);
+            ctx.lineTo(-needleWidthBase/2.5, -12);
+            ctx.lineTo(-tipWidth, -4);
+            ctx.lineTo(0, 0);
+            ctx.fillStyle = '#B0302A';
+            ctx.fill();
+            // add central beveled line
+            ctx.beginPath();
+            ctx.moveTo(0, -needleLen+5);
+            ctx.lineTo(0, -4);
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#FFC891';
+            ctx.stroke();
+            
+            // SOUTH part (dark steel / blue accent)
+            ctx.beginPath();
+            ctx.moveTo(0, needleLen);
+            ctx.lineTo(needleWidthBase/2, needleLen-22);
+            ctx.lineTo(needleWidthBase/2.5, 12);
+            ctx.lineTo(tipWidth, 4);
+            ctx.lineTo(0, 0);
+            ctx.fillStyle = '#2C5F8A';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(0, needleLen);
+            ctx.lineTo(-needleWidthBase/2, needleLen-22);
+            ctx.lineTo(-needleWidthBase/2.5, 12);
+            ctx.lineTo(-tipWidth, 4);
+            ctx.lineTo(0, 0);
+            ctx.fillStyle = '#1A4468';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(0, needleLen-5);
+            ctx.lineTo(0, 4);
+            ctx.strokeStyle = '#A0D0FF';
+            ctx.stroke();
+            
+            // center pivot: 3D rivet
+            ctx.beginPath();
+            ctx.arc(0, 0, 10, 0, Math.PI*2);
+            const pivotGrad = ctx.createRadialGradient(-3, -3, 2, 0, 0, 12);
+            pivotGrad.addColorStop(0, '#EFD89E');
+            pivotGrad.addColorStop(1, '#996633');
+            ctx.fillStyle = pivotGrad;
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(0, 0, 6, 0, Math.PI*2);
+            ctx.fillStyle = '#FFE8C7';
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(0, 0, 3, 0, Math.PI*2);
+            ctx.fillStyle = '#D4AF37';
+            ctx.fill();
+            
+            // ring of degree ticks (ultra-sharp precision)
+            ctx.lineWidth = 1.2;
+            for (let deg = 0; deg < 360; deg += 10) {
+                let rad = deg * Math.PI/180;
+                let innerR = ringInnerR - 5;
+                let outerR = ringInnerR - 1;
+                let startX = Math.sin(rad) * innerR;
+                let startY = -Math.cos(rad) * innerR;
+                let endX = Math.sin(rad) * outerR;
+                let endY = -Math.cos(rad) * outerR;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = (deg % 30 === 0) ? '#FFD966' : '#6F8FAC';
+                ctx.stroke();
+            }
+            
+            ctx.restore(); // restore rotation & translation
+            
+            // ---- 4. outer glass glare (dynamic 3D shine) ----
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, ringOuterR-3, 0, Math.PI*2);
+            ctx.clip();
+            const glareGrad = ctx.createLinearGradient(cx-30, cy-40, cx+40, cy+30);
+            glareGrad.addColorStop(0, 'rgba(255,255,245,0.25)');
+            glareGrad.addColorStop(0.5, 'rgba(210,230,255,0.08)');
+            glareGrad.addColorStop(1, 'rgba(100,150,200,0)');
+            ctx.fillStyle = glareGrad;
+            ctx.fillRect(0, 0, w, h);
+            // add a specular highlight arc
+            ctx.beginPath();
+            ctx.ellipse(cx-12, cy-18, 40, 28, 0.6, 0, Math.PI*2);
+            ctx.fillStyle = 'rgba(255,250,210,0.16)';
+            ctx.fill();
+            ctx.restore();
+            
+            // Extra outer glow ring (polished 3D edge)
+            ctx.beginPath();
+            ctx.arc(cx, cy, ringOuterR+1, 0, Math.PI*2);
+            ctx.strokeStyle = '#CCE6FF';
+            ctx.lineWidth = 1.8;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx, cy, ringOuterR-0.5, 0, Math.PI*2);
+            ctx.strokeStyle = '#FFFFFFAA';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+            
+            // small compass star emblem in lower-right ornamental
+            ctx.font = "bold 14px 'Segoe UI'";
+            ctx.fillStyle = '#E0F0FF';
+            ctx.shadowBlur = 2;
+            ctx.fillText("⚓", cx+ringOuterR-16, cy+ringOuterR-12);
+        }
+        
+        // Dynamic animation: compass slowly rotates to target angle based on mouse/cursor direction
+        // gives a polished "intelligent compass" that follows subtle user intention.
+        function updateCompassOrientation() {
+            if (!isMouseInside) {
+                // if mouse leaves area, slowly reset to north with gentle motion
+                targetAngle = 0;
+            } else {
+                // compute vector from center to mouse (relative to canvas bounding rect)
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                let canvasRelativeX = (mouseX - rect.left) * scaleX;
+                let canvasRelativeY = (mouseY - rect.top) * scaleY;
+                if (canvasRelativeX >= 0 && canvasRelativeX <= size && canvasRelativeY >= 0 && canvasRelativeY <= size) {
+                    const dx = canvasRelativeX - centerX;
+                    const dy = canvasRelativeY - centerY;
+                    let rawAngle = Math.atan2(dx, dy);  // note: atan2(x, y) gives angle from north direction
+                    targetAngle = rawAngle;
+                } else {
+                    // reset if outside boundaries while mouse inside? keep last target
+                }
+            }
+            // smoothing interpolation (sharp but dynamic)
+            let diff = targetAngle - angle;
+            // normalize angle difference to shortest path
+            if (diff > Math.PI) diff -= Math.PI*2;
+            if (diff < -Math.PI) diff += Math.PI*2;
+            angle += diff * 0.095;
+            // also small periodic drift for life (super subtle)
+            if (!isMouseInside) {
+                angle *= 0.998;
+            }
+        }
+        
+        // mouse tracking for dynamic compass orientation
+        function onMouseMove(e) {
+            isMouseInside = true;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        }
+        function onMouseLeave() {
+            isMouseInside = false;
+        }
+        
+        // animation loop with smooth rendering + time varying specular light offset
+        let timeAcc = 0;
+        function animateCompass(timestamp) {
+            updateCompassOrientation();
+            // subtle floating lighting shift to enhance 3D depth perception
+            timeAcc += 0.008;
+            const dynamicLightShift = Math.sin(timeAcc) * 1.8;
+            drawCompass(angle, dynamicLightShift);
+            animFrameId = requestAnimationFrame(animateCompass);
+        }
+        
+        // attach event listeners (canvas only)
+        function bindEvents() {
+            canvas.addEventListener('mousemove', onMouseMove);
+            canvas.addEventListener('mouseleave', onMouseLeave);
+            // for touch devices (mobile dynamic)
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                if (touch) {
+                    isMouseInside = true;
+                    mouseX = touch.clientX;
+                    mouseY = touch.clientY;
+                }
+            });
+            canvas.addEventListener('touchend', () => {
+                isMouseInside = false;
+                targetAngle = 0;
+            });
+            canvas.addEventListener('touchstart', (e) => {
+                const touch = e.touches[0];
+                if(touch) {
+                    isMouseInside = true;
+                    mouseX = touch.clientX;
+                    mouseY = touch.clientY;
+                }
+            });
+        }
+        
+        // initial draw and start
+        function init() {
+            bindEvents();
+            angle = 0;
+            targetAngle = 0;
+            drawCompass(0, 0);
+            animFrameId = requestAnimationFrame(animateCompass);
+        }
+        
+        init();
+        
+        // also extra polish: redraw on window resize for crisp canvas ratio (already fixed)
+        window.addEventListener('resize', () => {
+            // no resizing canvas but re-evaluate mouse zone — compass remains sharp
+        });
+    })();
+</script>
+</body>
+</html>
