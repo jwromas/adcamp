@@ -393,22 +393,49 @@
         let map;
         let currentMarker;
         function initMap() {
-            map = L.map('navigationMap').setView([34.0522, -118.2437], 12);
+            // Default to a global view if location is denied
+            map = L.map('navigationMap').setView([20, 0], 2);
+            
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; OpenStreetMap contributors',
                 subdomains: 'abcd',
                 maxZoom: 19
             }).addTo(map);
-            currentMarker = L.marker([34.0522, -118.2437], {title: 'AdCamp Strategy Point'}).addTo(map).bindPopup('🌀 AdCamp | Scaling North').openPopup();
+
+            // Request the user's actual location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    // Center map on the actual user
+                    map.setView([lat, lon], 12);
+                    
+                    // Create the marker at the user's real location
+                    currentMarker = L.marker([lat, lon], {title: 'AdCamp Strategy Point'}).addTo(map).bindPopup('🌀 AdCamp | Scaling North').openPopup();
+                    
+                    // Update the "Airport" data to feel more local
+                    document.getElementById('airportInfo').innerHTML = `📍 Local Market Detected • Lat: ${lat.toFixed(2)} • Lon: ${lon.toFixed(2)} • Signal: Strong`;
+                }, (error) => {
+                    console.log("Location denied, using default.");
+                    // Fallback if user denies location
+                    currentMarker = L.marker([34.0522, -118.2437], {title: 'Default Center'}).addTo(map);
+                });
+            } else {
+                // Fallback for browsers that don't support geolocation
+                currentMarker = L.marker([34.0522, -118.2437], {title: 'Default Center'}).addTo(map);
+            }
+
+            // Keep the movement simulation but base it on the current marker position
             setInterval(() => {
-                let oldLat = 34.0522;
-                let oldLon = -118.2437;
-                let deltaHeadingRad = trueNorthHeading * Math.PI/180;
-                let newLat = oldLat + Math.cos(deltaHeadingRad) * 0.0005;
-                let newLon = oldLon + Math.sin(deltaHeadingRad) * 0.0005;
-                map.setView([newLat, newLon], map.getZoom());
-                currentMarker.setLatLng([newLat, newLon]);
-                document.getElementById('airportInfo').innerHTML = `🎯 Target Market: High-Ticket B2B • ROI Index: 110.30 • Quality: Premium`;
+                if (currentMarker) {
+                    let currentLatLng = currentMarker.getLatLng();
+                    let deltaHeadingRad = trueNorthHeading * Math.PI/180;
+                    let newLat = currentLatLng.lat + Math.cos(deltaHeadingRad) * 0.0005;
+                    let newLon = currentLatLng.lng + Math.sin(deltaHeadingRad) * 0.0005;
+                    map.setView([newLat, newLon], map.getZoom());
+                    currentMarker.setLatLng([newLat, newLon]);
+                }
             }, 5000);
         }
         
