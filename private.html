@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Concierge | Resource Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --btn-gold: #c5a059;
+            --black: #0a0a0a;
+            --card-bg: #111111;
+            --text-white: #ffffff;
+            --text-grey: #888888;
+            --border: #222222;
+            --label-green: rgba(46, 125, 50, 0.2);
+            --label-text-green: #81c784;
+            --label-orange: rgba(230, 81, 0, 0.2);
+            --label-text-orange: #ffb74d;
+            --label-blue: rgba(33, 150, 243, 0.2);
+            --label-text-blue: #81d4fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--black); color: var(--text-white); font-family: 'Inter', sans-serif; line-height: 1.6; padding-bottom: 100px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- HERO --- */
+        header { padding: 100px 0 60px; text-align: center; border-bottom: 1px solid var(--border); margin-bottom: 60px; }
+        .badge { border: 1px solid var(--gold); color: var(--gold); padding: 8px 24px; border-radius: 50px; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; display: inline-block; margin-bottom: 30px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 400; margin-bottom: 20px; }
+        h1 span { font-style: italic; color: var(--gold); }
+
+        /* --- RESOURCE GRID --- */
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 25px; margin-bottom: 80px; }
+        .resource-card { background: var(--card-bg); border: 1px solid var(--border); padding: 35px; border-radius: 8px; transition: border-color 0.3s; position: relative; }
+        .resource-card:hover { border-color: var(--gold); }
+        
+        .label { display: inline-block; padding: 4px 12px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; }
+        .label.green { background: var(--label-green); color: var(--label-text-green); }
+        .label.orange { background: var(--label-orange); color: var(--label-text-orange); }
+        .label.blue { background: var(--label-blue); color: var(--label-text-blue); }
+
+        .resource-card h3 { font-size: 1.4rem; margin-bottom: 12px; font-weight: 600; }
+        .resource-card p { color: var(--text-grey); font-size: 0.95rem; margin-bottom: 25px; min-height: 50px; }
+        .resource-link { color: var(--btn-gold); text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: opacity 0.2s; }
+        .resource-link:hover { opacity: 0.8; }
+
+        /* --- SECTION TITLES --- */
+        .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 40px; border-left: 4px solid var(--gold); padding-left: 20px; }
+
+        @media (max-width: 768px) {
+            .resource-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="badge">Private Concierge • Bespoke Access</div>
+        <h1>Your Elite <span>Gatekeeper</span> Resources</h1>
+        <p style="color: var(--text-grey);">The networks, fixers, and platforms behind every high-ticket itinerary.</p>
+    </header>
+
+    <!-- PRIMARY RESOURCES -->
+    <div class="resource-grid">
+        <!-- Card 1 -->
+        <div class="resource-card">
+            <span class="label green">Villa Network</span>
+            <h3>Tablet Hotels</h3>
+            <p>Curated boutique hotels. Filter "Off the Grid" for hidden properties.</p>
+            <a href="https://tablethotels.com" class="resource-link">tablethotels.com &rarr;</a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="resource-card">
+            <span class="label green">Private Rentals</span>
+            <h3>Haven In</h3>
+            <p>Invite-only luxury rentals. No public listings. Apply for membership.</p>
+            <a href="https://havenin.com" class="resource-link">havenin.com &rarr;</a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="resource-card">
+            <span class="label green">Advisor Network</span>
+            <h3>Virtuoso</h3>
+            <p>Find a travel advisor. Free consultation. Includes hotel perks + upgrades.</p>
+            <a href="https://virtuoso.com" class="resource-link">virtuoso.com &rarr;</a>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="resource-card">
+            <span class="label green">Luxury Bookings</span>
+            <h3>Amex Fine Hotels (FHR)</h3>
+            <p>Amex Platinum benefit. Room upgrades, late checkout, $100 credit.</p>
+            <a href="https://www.americanexpress.com/en-us/travel/" class="resource-link">Amex Travel &rarr;</a>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="resource-card">
+            <span class="label green">Local Fixer</span>
+            <h3>Destination Management Co.</h3>
+            <p>Search "Bespoke DMC [city]". $500-1500/day for full local access.</p>
+            <a href="https://google.com" class="resource-link">Google it &rarr;</a>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="resource-card">
+            <span class="label green">Concierge Service</span>
+            <h3>Quintessentially</h3>
+            <p>Global concierge membership. $5k/yr, handles any request.</p>
+            <a href="https://quintessentially.com" class="resource-link">quintessentially.com &rarr;</a>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="resource-card">
+            <span class="label orange">Benchmarks</span>
+            <h3>Knight Frank Wealth Report</h3>
+            <p>Annual HNWI spending trends and luxury market data. Free PDF.</p>
+            <a href="https://knightfrank.com" class="resource-link">knightfrank.com &rarr;</a>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="resource-card">
+            <span class="label orange">Industry Data</span>
+            <h3>Skift</h3>
+            <p>The global authority on travel trends and high-ticket market analysis.</p>
+            <a href="https://skift.com" class="resource-link">skift.com &rarr;</a>
+        </div>
+    </div>
+
+    <!-- CURATED COLLECTIONS SECTION -->
+    <h2 class="section-title">Curated Collections</h2>
+    <div class="resource-grid">
+        <div class="resource-card">
+            <span class="label blue">Exclusive Access</span>
+            <h3>Elite Travel Essentials</h3>
+            <p>A curated selection of high-end travel gear and lifestyle accessories.</p>
+            <a href="https://mavely.app.link/urDmL5PoM3b" class="resource-link">View Collection &rarr;</a>
+        </div>
+
+        <div class="resource-card">
+            <span class="label blue">Exclusive Access</span>
+            <h3>Luxury Lifestyle Edit</h3>
+            <p>Hand-picked items designed for the modern high-net-worth traveler.</p>
+            <a href="https://mavely.app.link/ccDsh3UoM3b" class="resource-link">View Collection &rarr;</a>
+        </div>
+
+        <div class="resource-card">
+            <span class="label blue">Exclusive Access</span>
+            <h3>Bespoke Voyage Gear</h3>
+            <p>The definitive list of essentials for seamless international transit.</p>
+            <a href="https://mavely.app.link/RTCdSL48Y1b" class="resource-link">View Collection &rarr;</a>
+        </div>
+
+        <div class="resource-card">
+            <span class="label blue">Exclusive Access</span>
+            <h3>Private Collection I</h3>
+            <p>Specialized recommendations for elite comfort and style.</p>
+            <a href="https://mavely.app.link/xBRpES6oM3b" class="resource-link">View Collection &rarr;</a>
+        </div>
+
+        <div class="resource-card">
+            <span class="label blue">Exclusive Access</span>
+            <h3>Private Collection II</h3>
+            <p>Curated luxury finds and exclusive member-only aesthetics.</p>
+            <a href="https://mavely.app.link/XjE15BapM3b" class="resource-link">View Collection &rarr;</a>
+        </div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 80px; color: var(--text-grey); font-size: 0.8rem; letter-spacing: 2px;">
+        PRIVATE CONCIERGE • BY REFERRAL ONLY • ESTABLISHED 2026
+    </footer>
+</div>
+
+</body>
+</html>
